@@ -7,6 +7,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,8 +27,8 @@ class Database {
 		return d;
 	}
 	
-	protected static void getDailyStats() throws Exception{
-		File dir = new File("Daily Stats");
+	protected static void getDailyStats(File file) throws Exception{
+		File dir = new File(file, "Daily Stats");
 		
 		if (!dir.exists()){
 			dir.mkdir();
@@ -48,7 +50,7 @@ class Database {
 	        in.close();
 	        writer.close();
 		} catch (Exception e) {
-			System.out.println("An error occurred: " + e);
+			System.out.println("An error occurred in getDailyStats(): " + e);
 		}
 		
 		site = new URL("http://www.nhl.com/stats/rest/grouped/goalies/season/goaliesummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=2%20and%20playerPositionCode=%22G%22");
@@ -64,10 +66,23 @@ class Database {
 	        in.close();
 	        writer.close();
 		} catch (Exception e) {
-			System.out.println("An error occurred: " + e);
+			System.out.println("An error occurred in getDailyStats(): " + e);
 		}
 	}
 	
+	
+	protected static void getDailyStats() throws Exception{
+		Path cwd = Paths.get("");
+		String s = cwd.toAbsolutePath().toString();
+		File f = new File(s);
+		try{
+			Database.getDailyStats(f);
+		} catch (Exception e){
+			System.out.println("An error occurred in getDailyStats()");
+		}
+
+		
+	}
 	private static void createDatabase(){
 		File dir = new File("Player Stats");
 	}
