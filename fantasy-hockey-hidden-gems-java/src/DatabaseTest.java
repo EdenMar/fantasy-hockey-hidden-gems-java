@@ -61,5 +61,16 @@ public class DatabaseTest {
 		}
 	}
 	
+	@Test
+	public void testUpdateSkaterDatabase(){
+		try {
+			Database.getDailyStats();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Database.updateSkaterDatabase();
+	}
+	
 	
 }

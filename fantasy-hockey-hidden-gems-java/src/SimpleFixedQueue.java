@@ -41,5 +41,9 @@ public class SimpleFixedQueue {
 	public int getSize(){
 		return size;
 	}
+	
+	public String toString(){
+		return java.util.Arrays.toString(elements);
+	}
 
 }

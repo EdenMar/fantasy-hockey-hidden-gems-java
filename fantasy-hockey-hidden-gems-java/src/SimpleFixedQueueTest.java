@@ -56,4 +56,12 @@ public class SimpleFixedQueueTest {
 		assertEquals(s.dequeue(), 2);
 		assertEquals(s.dequeue(), 3);
 	}
+	
+	@Test
+	public void testToString(){
+		s.enqueue(1);
+		s.enqueue(2);
+
+		System.out.println(s.toString());
+	}
 }

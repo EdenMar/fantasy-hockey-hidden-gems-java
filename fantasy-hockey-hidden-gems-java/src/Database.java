@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -11,6 +12,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+
 
 class Database {
 	
@@ -39,34 +46,38 @@ class Database {
 		
         URL site = new URL("http://www.nhl.com/stats/rest/grouped/skaters/season/skatersummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=2");
 
-		try{
-	        URLConnection connection = site.openConnection();
-	        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	        String inputLine;
-	        File skaterFile = new File(dir, now + " Skater Stats.json");
-	        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(skaterFile), "utf-8"));
-	        while ((inputLine = in.readLine()) != null) 
-	            writer.write(inputLine);
-	        in.close();
-	        writer.close();
-		} catch (Exception e) {
-			System.out.println("An error occurred in getDailyStats(): " + e);
+        File skaterFile = new File(dir, now + " Skater Stats.json");
+		if (!skaterFile.exists()) {
+			try {
+				URLConnection connection = site.openConnection();
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String inputLine;
+				
+				Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(skaterFile), "utf-8"));
+				while ((inputLine = in.readLine()) != null)
+					writer.write(inputLine);
+				in.close();
+				writer.close();
+			} catch (Exception e) {
+				System.out.println("An error occurred in getDailyStats(): " + e);
+			} 
 		}
-		
 		site = new URL("http://www.nhl.com/stats/rest/grouped/goalies/season/goaliesummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=2%20and%20playerPositionCode=%22G%22");
-		
-		try{
-	        URLConnection connection = site.openConnection();
-	        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	        String inputLine;
-	        File goalieFile = new File(dir, now + " Goalie Stats.json");
-	        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(goalieFile), "utf-8"));
-	        while ((inputLine = in.readLine()) != null) 
-	            writer.write(inputLine);
-	        in.close();
-	        writer.close();
-		} catch (Exception e) {
-			System.out.println("An error occurred in getDailyStats(): " + e);
+        File goalieFile = new File(dir, now + " Goalie Stats.json");
+
+		if (!goalieFile.exists()) {
+			try {
+				URLConnection connection = site.openConnection();
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String inputLine;
+				Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(goalieFile), "utf-8"));
+				while ((inputLine = in.readLine()) != null)
+					writer.write(inputLine);
+				in.close();
+				writer.close();
+			} catch (Exception e) {
+				System.out.println("An error occurred in getDailyStats(): " + e);
+			} 
 		}
 	}
 	
@@ -83,12 +94,42 @@ class Database {
 
 		
 	}
-	private static void createDatabase(){
-		File dir = new File("Player Stats");
+	
+	protected static void updateSkaterDatabase(){
+		File fOut = new File("Player Stats/Skater Stats/");
+		File fIn = new File("Daily Stats/");
+		
+		if (!fOut.exists()){
+			fOut.mkdirs();
+		}
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String now = new String(sdf.format(date));
+		
+		try{
+	        File readFile = new File(fIn, now + " Skater Stats.json");
+	        JSONParser parser = new JSONParser();
+	        JSONObject obj = (JSONObject) parser.parse(new FileReader(readFile));
+	        JSONArray array = (JSONArray) obj.get("data");
+	        for (Object o : array){
+	        	JSONObject skater = (JSONObject) o;
+	        	String name = (String) skater.get("playerName");
+
+	        	File skaterFile = new File(fOut, name + ".json");
+	        	if (!skaterFile.exists()){
+	        		
+	        	}
+	        }
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+		}
 	}
 	
-	private static void createSkaterDatabase(){
-		File dir = new File("Player Stats/Skater Stats");
+	private static void updateGoalieDatabase(){
+		
+	}
+	
+	private static void createSkaterFile(String playerName){
 		
 	}
 	
