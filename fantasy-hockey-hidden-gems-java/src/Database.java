@@ -18,10 +18,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 
-
 class Database {
 	
 	private static Database d = null;
+	
+	private static final Date DATE = new Date();
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	private static final String NOW = new String(sdf.format(DATE));
 
 	private Database(){
 		
@@ -33,20 +36,20 @@ class Database {
 		}
 		return d;
 	}
-	
+	/*
+	 * Downloads the latest skater and goalie stats and saves it to the provided file location
+	 */
 	protected static void getDailyStats(File file) throws Exception{
 		File dir = new File(file, "Daily Stats");
 		
 		if (!dir.exists()){
 			dir.mkdir();
 		}
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String now = new String(sdf.format(date));
+
 		
         URL site = new URL("http://www.nhl.com/stats/rest/grouped/skaters/season/skatersummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=2");
 
-        File skaterFile = new File(dir, now + " Skater Stats.json");
+        File skaterFile = new File(dir, NOW + " Skater Stats.json");
 		if (!skaterFile.exists()) {
 			try {
 				URLConnection connection = site.openConnection();
@@ -63,7 +66,7 @@ class Database {
 			} 
 		}
 		site = new URL("http://www.nhl.com/stats/rest/grouped/goalies/season/goaliesummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=2%20and%20playerPositionCode=%22G%22");
-        File goalieFile = new File(dir, now + " Goalie Stats.json");
+        File goalieFile = new File(dir, NOW + " Goalie Stats.json");
 
 		if (!goalieFile.exists()) {
 			try {
@@ -81,7 +84,9 @@ class Database {
 		}
 	}
 	
-	
+	/*
+	 * Same as above, but assumes the current working directory will be used to store data if no argument given
+	 */
 	protected static void getDailyStats() throws Exception{
 		Path cwd = Paths.get("");
 		String s = cwd.toAbsolutePath().toString();
@@ -94,30 +99,42 @@ class Database {
 
 		
 	}
-	
+	/*
+	 * This method takes the newest stats and updates the individual skater files
+	 */
 	protected static void updateSkaterDatabase(){
+		//fOut represents the path where the skater stats are stored for individual players
 		File fOut = new File("Player Stats/Skater Stats/");
+		//fIn represents the path where the daily stats are kept
 		File fIn = new File("Daily Stats/");
 		
 		if (!fOut.exists()){
 			fOut.mkdirs();
 		}
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String now = new String(sdf.format(date));
 		
 		try{
-	        File readFile = new File(fIn, now + " Skater Stats.json");
+	        File readFile = new File(fIn, NOW + " Skater Stats.json");
 	        JSONParser parser = new JSONParser();
 	        JSONObject obj = (JSONObject) parser.parse(new FileReader(readFile));
-	        JSONArray array = (JSONArray) obj.get("data");
-	        for (Object o : array){
-	        	JSONObject skater = (JSONObject) o;
-	        	String name = (String) skater.get("playerName");
+	        JSONArray skaterData = (JSONArray) obj.get("data");
+	        for (Object elementOfSkaterData : skaterData){
+	        	JSONObject skaterObject = (JSONObject) elementOfSkaterData;
+	        	String name = (String) skaterObject.get("playerName");
 
 	        	File skaterFile = new File(fOut, name + ".json");
 	        	if (!skaterFile.exists()){
-	        		
+	        		//create new Skater instance
+	        		//take data from the skaterObject
+	        		//assign to Skater instance
+	        		//write to file
+	        	}
+	        	else{
+	        		//skaterFile exists
+	        		//compare skaterObject data with skaterFile data
+	        		//if same, continue
+	        		//if not, update the skaterFile
+	        		//create new instance of Skater with old data
+	        		//update database with new data based on comparisons
 	        	}
 	        }
 		} catch (Exception e) {

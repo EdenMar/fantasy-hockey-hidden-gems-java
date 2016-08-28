@@ -1,23 +1,24 @@
+import java.util.ArrayDeque;
 
 public class Goalie {
 	private String name;
 	private String playerPositionCode = "G";
 	private int totalGamesPlayed;
-	private SimpleFixedQueue gamesPlayed;
-	private SimpleFixedQueue savePctg;
+//	private ArrayDeque<Integer> gamesPlayedQueue;
+	private ArrayDeque<Float> savePctgQueue;
 	private float totalSavePctg;
-	private SimpleFixedQueue wins;
+	private ArrayDeque<Integer> winsQueue;
 	private int totalWins;
 	private int shutouts;
-	private SimpleFixedQueue shotsAgainst;
+	private ArrayDeque<Integer> shotsAgainstQueue;
 	private int totalShotsAgainst;
-	private SimpleFixedQueue goalsAgainst;
+	private ArrayDeque<Integer> goalsAgainstQueue;
 	private int totalGoalsAgainst;
-	private SimpleFixedQueue saves;
+	private ArrayDeque<Integer> savesQueue;
 	private int totalSaves;
 	private float totalGAA;
-	private SimpleFixedQueueFloat goalsAgainstAverage;
-	private SimpleFixedQueueFloat timeOnIce;
+	private ArrayDeque<Float> goalsAgainstAverageQueue;
+	private ArrayDeque<Integer> timeOnIceQueue;
 	private int totalTimeOnIce;
 	
 	
@@ -41,20 +42,20 @@ public class Goalie {
 		this.totalGamesPlayed = totalGamesPlayed;
 	}
 	
-	public SimpleFixedQueue getGamesPlayed(){
-		return gamesPlayed;
+//	public ArrayDeque<Integer> getGamesPlayed(){
+//		return gamesPlayedQueue;
+//	}
+//	
+//	protected void setGamesPlayed(ArrayDeque<Integer> gamesPlayed){
+//		this.gamesPlayedQueue = gamesPlayed;
+//	}
+	
+	public ArrayDeque<Float> getSavePctg(){
+		return savePctgQueue;
 	}
 	
-	protected void setGamesPlayed(SimpleFixedQueue gamesPlayed){
-		this.gamesPlayed = gamesPlayed;
-	}
-	
-	public SimpleFixedQueue getSavePctg(){
-		return savePctg;
-	}
-	
-	protected void setSavePctg(SimpleFixedQueue savePctg){
-		this.savePctg = savePctg;
+	protected void setSavePctg(ArrayDeque<Float> savePctg){
+		this.savePctgQueue = savePctg;
 	}
 	
 	public float getTotalSavePctg(){
@@ -65,12 +66,12 @@ public class Goalie {
 		this.totalSavePctg = totalSavePctg;
 	}
 	
-	public SimpleFixedQueue getWins(){
-		return wins;
+	public ArrayDeque<Integer> getWins(){
+		return winsQueue;
 	}
 	
-	protected void setWins(SimpleFixedQueue wins){
-		this.wins = wins;
+	protected void setWins(ArrayDeque<Integer> wins){
+		this.winsQueue = wins;
 	}
 	
 	public int getTotalWins(){
@@ -89,12 +90,12 @@ public class Goalie {
 		this.shutouts = shutouts;
 	}
 	
-	public SimpleFixedQueue getShotsAgainst(){
-		return shotsAgainst;
+	public ArrayDeque<Integer> getShotsAgainst(){
+		return shotsAgainstQueue;
 	}
 	
-	protected void setShotsAgainst(SimpleFixedQueue shotsAgainst){
-		this.shotsAgainst = shotsAgainst;
+	protected void setShotsAgainst(ArrayDeque<Integer> shotsAgainst){
+		this.shotsAgainstQueue = shotsAgainst;
 	}
 	
 	public int getTotalShotsAgainst(){
@@ -105,12 +106,12 @@ public class Goalie {
 		this.totalShotsAgainst = totalShotsAgainst;
 	}
 	
-	public SimpleFixedQueue getGoalsAgainst(){
-		return goalsAgainst;
+	public ArrayDeque<Integer> getGoalsAgainst(){
+		return goalsAgainstQueue;
 	}
 	
-	protected void setGoalsAgainst(SimpleFixedQueue goalsAgainst){
-		this.goalsAgainst = goalsAgainst;
+	protected void setGoalsAgainst(ArrayDeque<Integer> goalsAgainst){
+		this.goalsAgainstQueue = goalsAgainst;
 	}
 	
 	public int getTotalGoalsAgainst(){
@@ -121,12 +122,12 @@ public class Goalie {
 		this.totalGoalsAgainst = totalGoalsAgainst;
 	}
 	
-	public SimpleFixedQueue getSaves(){
-		return saves;
+	public ArrayDeque<Integer> getSaves(){
+		return savesQueue;
 	}
 	
-	protected void setSaves(SimpleFixedQueue saves){
-		this.saves = saves;
+	protected void setSaves(ArrayDeque<Integer> saves){
+		this.savesQueue = saves;
 	}
 	
 	public int getTotalSaves(){
@@ -145,20 +146,20 @@ public class Goalie {
 		this.totalGAA = totalGAA;
 	}
 	
-	public SimpleFixedQueueFloat getGoalsAgainstAverage(){
-		return goalsAgainstAverage;
+	public ArrayDeque<Float> getGoalsAgainstAverage(){
+		return goalsAgainstAverageQueue;
 	}
 	
-	protected void setGoalsAgainstAverage(SimpleFixedQueueFloat goalsAgainstAverage){
-		this.goalsAgainstAverage = goalsAgainstAverage;
+	protected void setGoalsAgainstAverage(ArrayDeque<Float> goalsAgainstAverage){
+		this.goalsAgainstAverageQueue = goalsAgainstAverage;
 	}
 	
-	public SimpleFixedQueueFloat getTimeOnIce(){
-		return timeOnIce;
+	public ArrayDeque<Integer> getTimeOnIce(){
+		return timeOnIceQueue;
 	}
 	
-	protected void setTimeOnIce(SimpleFixedQueueFloat timeOnIce){
-		this.timeOnIce = timeOnIce;
+	protected void setTimeOnIce(ArrayDeque<Integer> timeOnIce){
+		this.timeOnIceQueue = timeOnIce;
 	}
 	
 	public float getTotalTimeOnIce(){

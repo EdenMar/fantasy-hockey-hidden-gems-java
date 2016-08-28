@@ -1,26 +1,27 @@
+import java.util.ArrayDeque;
 
 public class Skater {
 	
 	private String name;
 	private String playerPositionCode;
-	private SimpleFixedQueue gamesPlayed;
+//	private ArrayDeque<Integer> gamesPlayedQueue;
 	private int totalGamesPlayed;
-	private SimpleFixedQueue goals;
+	private ArrayDeque<Integer> goalsQueue;
 	private int totalGoals;
-	private SimpleFixedQueue assists;
+	private ArrayDeque<Integer> assistsQueue;
 	private int totalAssists;
-	private SimpleFixedQueue points;
+	private ArrayDeque<Integer> pointsQueue;
 	private int totalPoints;
-	private SimpleFixedQueue plusMinus;
+	private ArrayDeque<Integer> plusMinusQueue;
 	private int totalPlusMinus;
-	private SimpleFixedQueue penaltyMinutes;
+	private ArrayDeque<Integer> penaltyMinutesQueue;
 	private int totalPenaltyMinutes;
-	private SimpleFixedQueue ppPoints;
+	private ArrayDeque<Integer> ppPointsQueue;
 	private int totalppPoints;
-	private SimpleFixedQueue ppGoals;
+	private ArrayDeque<Integer> ppGoalsQueue;
 	private int totalppGoals;
 	private int shGoals;
-	private SimpleFixedQueue shots;
+	private ArrayDeque<Integer> shotsQueue;
 	private int totalShots;
 	
 	public Skater(String playerName){
@@ -47,13 +48,13 @@ public class Skater {
 		this.totalGamesPlayed = totalGamesPlayed;
 	}
 	
-	public SimpleFixedQueue getGamesPlayed(){
-		return gamesPlayed;
-	}
-	
-	protected void setGamesPlayed(SimpleFixedQueue gamesPlayed){
-		this.gamesPlayed = gamesPlayed;
-	}
+//	public ArrayDeque<Integer> getGamesPlayed(){
+//		return gamesPlayedQueue;
+//	}
+//	
+//	protected void setGamesPlayed(ArrayDeque<Integer> gamesPlayed){
+//		this.gamesPlayedQueue = gamesPlayed;
+//	}
 	
 	protected void setTotalGoals(int totalGoals){
 		this.totalGoals = totalGoals;
@@ -63,12 +64,12 @@ public class Skater {
 		return totalGoals;
 	}
 	
-	protected void setGoals(SimpleFixedQueue goals){
-		this.goals = goals;
+	protected void setGoals(ArrayDeque<Integer> goals){
+		this.goalsQueue = goals;
 	}
 	
-	public SimpleFixedQueue getGoals(){
-		return goals;
+	public ArrayDeque<Integer> getGoals(){
+		return goalsQueue;
 	}
 	
 	public int getTotalAssists(){
@@ -79,20 +80,20 @@ public class Skater {
 		this.totalAssists = totalAssists;
 	}
 	
-	public SimpleFixedQueue getAssists(){
-		return assists;
+	public ArrayDeque<Integer> getAssists(){
+		return assistsQueue;
 	}
 	
-	protected void setAssists(SimpleFixedQueue assists){
-		this.assists = assists;
+	protected void setAssists(ArrayDeque<Integer> assists){
+		this.assistsQueue = assists;
 	}
 	
-	public SimpleFixedQueue getPoints(){
-		return points;
+	public ArrayDeque<Integer> getPoints(){
+		return pointsQueue;
 	}
 	
-	protected void setPoints(SimpleFixedQueue points){
-		this.points = points;
+	protected void setPoints(ArrayDeque<Integer> points){
+		this.pointsQueue = points;
 	}
 	
 	public int getTotalPoints(){
@@ -111,12 +112,12 @@ public class Skater {
 		this.totalPlusMinus = totalPlusMinus;
 	}
 	
-	public SimpleFixedQueue getPlusMinus(){
-		return plusMinus;
+	public ArrayDeque<Integer> getPlusMinus(){
+		return plusMinusQueue;
 	}
 	
-	protected void setPlusMinus(SimpleFixedQueue plusMinus){
-		this.plusMinus = plusMinus;
+	protected void setPlusMinus(ArrayDeque<Integer> plusMinus){
+		this.plusMinusQueue = plusMinus;
 	}
 	
 	public int getTotalPenaltyMinutes(){
@@ -127,12 +128,12 @@ public class Skater {
 		this.totalPenaltyMinutes = totalPenaltyMinutes;
 	}
 	
-	public SimpleFixedQueue getPenaltyMinutes(){
-		return penaltyMinutes;
+	public ArrayDeque<Integer> getPenaltyMinutes(){
+		return penaltyMinutesQueue;
 	}
 	
-	protected void setPenaltyMinutes(SimpleFixedQueue penaltyMinutes){
-		this.penaltyMinutes = penaltyMinutes;
+	protected void setPenaltyMinutes(ArrayDeque<Integer> penaltyMinutes){
+		this.penaltyMinutesQueue = penaltyMinutes;
 	}
 	
 	public int getTotalppPoints(){
@@ -143,12 +144,12 @@ public class Skater {
 		this.totalppPoints = totalppPoints;
 	}
 	
-	public SimpleFixedQueue getppPoints(){
-		return ppPoints;
+	public ArrayDeque<Integer> getppPoints(){
+		return ppPointsQueue;
 	}
 	
-	protected void setppPoints(SimpleFixedQueue ppPoints){
-		this.ppPoints = ppPoints;
+	protected void setppPoints(ArrayDeque<Integer> ppPoints){
+		this.ppPointsQueue = ppPoints;
 	}
 	
 	public int getTotalppGoals(){
@@ -159,12 +160,12 @@ public class Skater {
 		this.totalppGoals = totalppGoals;
 	}
 	
-	public SimpleFixedQueue getppGoals(){
-		return ppGoals;
+	public ArrayDeque<Integer> getppGoals(){
+		return ppGoalsQueue;
 	}
 	
-	protected void setppGoals(SimpleFixedQueue ppGoals){
-		this.ppGoals = ppGoals;
+	protected void setppGoals(ArrayDeque<Integer> ppGoals){
+		this.ppGoalsQueue = ppGoals;
 	}
 	
 	public int getshGoals(){
@@ -183,11 +184,11 @@ public class Skater {
 		this.totalShots = totalShots;
 	}
 	
-	public SimpleFixedQueue getShots(){
-		return shots;
+	public ArrayDeque<Integer> getShots(){
+		return shotsQueue;
 	}
 	
-	protected void setShots(SimpleFixedQueue shots){
-		this.shots = shots;
+	protected void setShots(ArrayDeque<Integer> shots){
+		this.shotsQueue = shots;
 	}
 }
