@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.io.FileWriter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -127,6 +128,11 @@ class Database {
 	        		//take data from the skaterObject
 	        		//assign to Skater instance
 	        		//write to file
+	        		Skater skater = new Skater(skaterObject);
+	        		FileWriter f = new FileWriter(skaterFile);
+	        		f.write(skater.createSkaterJSON().toString());
+	        		f.flush();
+	        		f.close();
 	        	}
 	        	else{
 	        		//skaterFile exists
@@ -147,6 +153,10 @@ class Database {
 	}
 	
 	private static void createSkaterFile(String playerName){
+		
+	}
+	
+	private static void writeJSONObjectToFile(){
 		
 	}
 	
