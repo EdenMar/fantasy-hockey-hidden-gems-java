@@ -1,29 +1,47 @@
 import java.util.ArrayDeque;
 
+import org.json.simple.*;
+
 public class Goalie {
 	private String name;
 	private String playerPositionCode = "G";
 	private int totalGamesPlayed;
 //	private ArrayDeque<Integer> gamesPlayedQueue;
-	private ArrayDeque<Float> savePctgQueue;
+	private ArrayDeque<Float> savePctgQueue = new ArrayDeque<Float>(10);
 	private float totalSavePctg;
-	private ArrayDeque<Integer> winsQueue;
+	private ArrayDeque<Integer> winsQueue = new ArrayDeque<Integer>(10);
 	private int totalWins;
 	private int shutouts;
-	private ArrayDeque<Integer> shotsAgainstQueue;
+	private ArrayDeque<Integer> shotsAgainstQueue = new ArrayDeque<Integer>(10);
 	private int totalShotsAgainst;
-	private ArrayDeque<Integer> goalsAgainstQueue;
+	private ArrayDeque<Integer> goalsAgainstQueue = new ArrayDeque<Integer>(10);
 	private int totalGoalsAgainst;
-	private ArrayDeque<Integer> savesQueue;
+	private ArrayDeque<Integer> savesQueue = new ArrayDeque<Integer>(10);
 	private int totalSaves;
 	private float totalGAA;
-	private ArrayDeque<Float> goalsAgainstAverageQueue;
-	private ArrayDeque<Integer> timeOnIceQueue;
+	private ArrayDeque<Float> goalsAgainstAverageQueue = new ArrayDeque<Float>(10);
+	private ArrayDeque<Integer> timeOnIceQueue = new ArrayDeque<Integer>(10);
 	private int totalTimeOnIce;
 	
-	
-	public Goalie (String name){
-		this.name = name;
+	//constructor takes JSONObject and adds goalie to DB
+	public Goalie (JSONObject goalie){
+		this.name = (String)goalie.get("playerName");
+		this.totalGamesPlayed = (Integer)goalie.get("gamesPlayed");
+		this.savePctgQueue.add((Float)goalie.get("savePctg"));
+		this.totalSavePctg = (Float)goalie.get("savePctg");
+		this.winsQueue.add((Integer)goalie.get("wins"));
+		this.totalWins = (Integer)goalie.get("wins");
+		this.shutouts = (Integer)goalie.get("shutouts");
+		this.shotsAgainstQueue.add((Integer)goalie.get("shotsAgainst"));
+		this.totalShotsAgainst = (Integer)goalie.get("shotsAgainst");
+		this.goalsAgainstQueue.add((Integer)goalie.get("goalsAgainst"));
+		this.totalGoalsAgainst = (Integer)goalie.get("goalsAgainst");
+		this.savesQueue.add((Integer)goalie.get("saves"));
+		this.totalSaves = (Integer)goalie.get("saves");
+		this.totalGAA = (Float)goalie.get("goalsAgainstAverage");
+		this.goalsAgainstAverageQueue.add((Float)goalie.get("goalsAgainstAverage"));
+		this.timeOnIceQueue.add((Integer)goalie.get("timeOnIce"));
+		this.totalTimeOnIce = (Integer)goalie.get("timeOnIce");
 	}
 	
 	public String getName(){
@@ -168,5 +186,31 @@ public class Goalie {
 	
 	protected void setTotalTimeOnIce(int totalTimeOnIce){
 		this.totalTimeOnIce = totalTimeOnIce;
+	}
+	
+	//SuppressedWarning as JSONObject inherits from HashMap, but doesn't inherit <K,V>
+	//http://stackoverflow.com/questions/2927370/how-to-solve-this-java-type-safety-warning
+	@SuppressWarnings("unchecked")
+	protected JSONObject createGoalieJSON(){
+		JSONObject goalie = new JSONObject();
+		goalie.put("playerName", this.name);
+		goalie.put("gamesPlayed", this.totalGamesPlayed);
+		goalie.put("savePctgQueue", this.savePctgQueue);
+		goalie.put("totalSavePctg", this.totalSavePctg);
+		goalie.put("winsQueue", this.winsQueue);
+		goalie.put("totalWins", this.totalWins);
+		goalie.put("shutouts", this.shutouts);
+		goalie.put("shotsAgainstQueue", this.shotsAgainstQueue);
+		goalie.put("totalShotsAgainst", this.totalShotsAgainst);
+		goalie.put("goalsAgainstQueue", this.goalsAgainstQueue);
+		goalie.put("totalGoalsAgainst", this.totalGoalsAgainst);
+		goalie.put("savesQueue", this.savesQueue);
+		goalie.put("totalSaves", this.totalSaves);
+		goalie.put("totalGAA", this.totalGAA);
+		goalie.put("goalsAgainstAverageQueue", this.goalsAgainstAverageQueue);
+		goalie.put("timeOnIceQueue", this.timeOnIceQueue);
+		goalie.put("totalTimeOnIce", this.totalTimeOnIce);
+
+		return goalie;
 	}
 }

@@ -222,7 +222,7 @@ public class Skater {
 	@SuppressWarnings("unchecked")
 	protected JSONObject createSkaterJSON(){
 		JSONObject skater = new JSONObject();
-		skater.put("name", this.name);
+		skater.put("playerName", this.name);
 		skater.put("gamesPlayed", this.totalGamesPlayed);
 		skater.put("playerPositionCode", this.playerPositionCode);
 		skater.put("goalsQueue", this.goalsQueue);
