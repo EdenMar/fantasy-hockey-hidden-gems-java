@@ -100,14 +100,24 @@ class Database {
 
 		
 	}
+	protected static void updateSkaterDatabase(){
+		Path cwd = Paths.get("");
+		String s = cwd.toAbsolutePath().toString();
+		File f = new File(s);
+		try{
+			Database.updateSkaterDatabase(f);
+		} catch (Exception e){
+			System.out.println("An error occurred in updateSkaterDatabase");
+		}
+	}
 	/*
 	 * This method takes the newest stats and updates the individual skater files
 	 */
-	protected static void updateSkaterDatabase(){
+	protected static void updateSkaterDatabase(File file){
 		//fOut represents the path where the skater stats are stored for individual players
-		File fOut = new File("Player Stats/Skater Stats/");
+		File fOut = new File(file, "Player Stats/Skater Stats/");
 		//fIn represents the path where the daily stats are kept
-		File fIn = new File("Daily Stats/");
+		File fIn = new File(file, "Daily Stats/");
 		
 		if (!fOut.exists()){
 			fOut.mkdirs();
@@ -124,15 +134,8 @@ class Database {
 
 	        	File skaterFile = new File(fOut, name + ".json");
 	        	if (!skaterFile.exists()){
-	        		//create new Skater instance
-	        		//take data from the skaterObject
-	        		//assign to Skater instance
-	        		//write to file
-	        		Skater skater = new Skater(skaterObject);
-	        		FileWriter f = new FileWriter(skaterFile);
-	        		f.write(skater.createSkaterJSON().toString());
-	        		f.flush();
-	        		f.close();
+
+	        		createSkaterFile(skaterObject, skaterFile);
 	        	}
 	        	else{
 	        		//skaterFile exists
@@ -151,8 +154,24 @@ class Database {
 	private static void updateGoalieDatabase(){
 		
 	}
-	
-	private static void createSkaterFile(String playerName){
+	/*
+	 * createSkaterFile takes the JSONObject player and a filepath and creates the individual
+	 * DB file for each skater
+	 */
+	private static void createSkaterFile(JSONObject player, File filePath){
+		Skater skater = new Skater(player);
+		//create new Skater instance
+		//take data from the skaterObject
+		//assign to Skater instance
+		//write to file
+		try{
+			FileWriter writer = new FileWriter(filePath);
+			writer.write(skater.createSkaterJSON().toString());
+			writer.flush();
+			writer.close();
+		} catch(Exception e){
+			System.out.println("Problem in createSkaterFile(): " + e);
+		}
 		
 	}
 	
