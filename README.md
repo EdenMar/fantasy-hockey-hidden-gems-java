@@ -1,0 +1,1 @@
+This is a personal project that is currently a work in progress. It is meant to be a Java version of an earlier Python project, which can be found here: https://github.com/EdenMar/fantasy_hockey_gems
