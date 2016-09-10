@@ -1,19 +1,16 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collections;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.junit.Before;
 import org.junit.Test;
 
 import main.Skater;
@@ -22,18 +19,6 @@ import main.Skater.ExistsInDB;
 public class SkaterTest {
 
 
-//	@Before
-//	public void setUp() throws Exception {
-//		try{
-//		File f = new File("Connor McDavid.json");
-//		JSONParser p = new JSONParser();
-//		JSONObject connor = (JSONObject)p.parse(new FileReader(f));
-//		skater = new Skater(connor, ExistsInDB.YES);
-//		}catch (Exception e){
-//			e.printStackTrace();
-//		}
-//		
-//	}
 	/*
 	 * This test checks if the data from the test can be properly instantiated in an instance
 	 * of Skater. 
@@ -67,21 +52,16 @@ public class SkaterTest {
 		JSONObject o = (JSONObject)p.parse(new FileReader(f));
 		skater = new Skater(o, ExistsInDB.YES);
 		
-		assertEquals("Games played wrong", skater.getTotalGamesPlayed(), 45);
-		ArrayDeque<Integer> a = new ArrayDeque<Integer>(10);
-		a.add(16);
-		assertArrayEquals("Goals wrong", a.toArray(), skater.getGoals().toArray());
 		
+		assertEquals("Goals wrong", skater.getTotalGoals(), 16);
+		ArrayDeque<Integer> a = new ArrayDeque<Integer>(10);
+		a.add(32);
+		assertArrayEquals("Assists wrong", a.toArray(), skater.getAssists().toArray());
+		
+		assertEquals("shGoals wrong", 0, skater.getshGoals());
 		
 	}
 	
-	@Test
-	public void testAssert(){
-		ArrayDeque<Integer> a1 = new ArrayDeque<Integer>(10);
-		ArrayDeque<Integer> a2 = new ArrayDeque<Integer>(10);
-		assertArrayEquals(a1.toArray(), a2.toArray());
-		
-	}
 
 
 }

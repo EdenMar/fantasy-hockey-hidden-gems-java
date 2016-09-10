@@ -1,6 +1,6 @@
 package main;
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertArrayEquals;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -91,7 +91,7 @@ public class DatabaseTest {
 	        
 	        assertEquals("Goalie comparison problems", true, goalieControlArray.equals(goalieTestArray));
 
-	        assertEquals("Skater comparison problem", true, skaterControlArray.equals(skaterTestArray));
+	        assertEquals("Skater comparison problems", true, skaterControlArray.equals(skaterTestArray));
 
 		} catch (Exception e){
 			System.out.println(e);
@@ -156,13 +156,5 @@ public class DatabaseTest {
 		
 	}
 	
-	@Test
-	public void update(){
-		try{
-			Database.getDailyStats();
-			Database.updateSkaterDatabase();
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-	}
+
 }

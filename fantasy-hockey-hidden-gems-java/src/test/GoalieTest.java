@@ -1,7 +1,11 @@
-import static org.junit.Assert.*;
+package test;
+
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import main.Goalie;
 
 public class GoalieTest {
 
@@ -9,7 +13,7 @@ public class GoalieTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		g = new Goalie("Cam Talbot");
+
 	}
 
 	@Test

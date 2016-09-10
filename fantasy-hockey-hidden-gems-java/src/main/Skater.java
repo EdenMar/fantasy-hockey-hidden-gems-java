@@ -37,9 +37,9 @@ public class Skater {
 	public Skater(JSONObject playerJSON, ExistsInDB yesOrNo){
 		this.playerName = (String) playerJSON.get("playerName");
 		this.playerPositionCode = (String) playerJSON.get("playerPositionCode");
+		this.totalGamesPlayed = ((Long)playerJSON.get("gamesPlayed")).intValue();
 		
 		if (yesOrNo == ExistsInDB.NO){
-			this.totalGamesPlayed = ((Long) playerJSON.get("gamesPlayed")).intValue();
 	
 			this.totalGoals = ((Long)playerJSON.get("goals")).intValue();
 			this.goalsQueue.add(this.getTotalGoals());
@@ -69,9 +69,33 @@ public class Skater {
 			this.shotsQueue.add(this.getTotalShots());
 		}
 		else{
-			this.totalGamesPlayed = ((Long)playerJSON.get("gamesPlayed")).intValue();
+			
 			this.goalsQueue = convertToArrayDeque((JSONArray)playerJSON.get("goalsQueue"));
-//			this.totalGoals = ((Long)playerJSON.get("totalGoals")).intValue();
+			this.totalGoals = ((Long)playerJSON.get("totalGoals")).intValue();
+			
+			this.assistsQueue = convertToArrayDeque((JSONArray)playerJSON.get("assistsQueue"));
+			this.totalAssists = ((Long)playerJSON.get("totalAssists")).intValue();
+			
+			this.pointsQueue = convertToArrayDeque((JSONArray)playerJSON.get("pointsDeque"));
+			this.totalPoints = ((Long)playerJSON.get("totalPoints")).intValue();
+			
+			this.plusMinusQueue = convertToArrayDeque((JSONArray)playerJSON.get("plusMinusQueue"));
+			this.totalPlusMinus = ((Long)playerJSON.get("totalPlusMinus")).intValue();
+			
+			this.totalPenaltyMinutes = ((Long)playerJSON.get("totalPenaltyMinutes")).intValue();
+			this.penaltyMinutesQueue = convertToArrayDeque((JSONArray)playerJSON.get("penaltyMinutesQueue"));
+			
+			this.totalppPoints = ((Long)playerJSON.get("totalppPoints")).intValue();
+			this.ppPointsQueue = convertToArrayDeque((JSONArray)playerJSON.get("ppPointsQueue"));
+			
+			this.totalppGoals = ((Long)playerJSON.get("totalppGoals")).intValue();
+			this.ppGoalsQueue = convertToArrayDeque((JSONArray)playerJSON.get("ppGoalsQueue"));
+			
+			this.shGoals = ((Long)playerJSON.get("shGoals")).intValue();
+			
+			this.totalShots = ((Long)playerJSON.get("totalShots")).intValue();
+			this.shotsQueue = convertToArrayDeque((JSONArray)playerJSON.get("shotsQueue"));
+			
 		}
 
 	}
@@ -240,11 +264,16 @@ public class Skater {
 		this.shotsQueue = shots;
 	}
 	
-	protected ArrayDeque<Integer> convertToArrayDeque(JSONArray array){
+	/*
+	 * When inputting from a JSON file, some data comes in as JSONArrays. When instantiating
+	 * from a JSON file, need to convert the JSONArray data back into ArrayDeque. This
+	 * method helps do that
+	 */
+	protected static ArrayDeque<Integer> convertToArrayDeque(JSONArray array){
 		ArrayDeque<Integer> data = new ArrayDeque<Integer>(10);
 		try{
 			for (Object o : array){
-				Integer tmp = (Integer)o;
+				Integer tmp = ((Long)o).intValue();
 				data.add(tmp);
 			}
 		} catch(Exception e){
