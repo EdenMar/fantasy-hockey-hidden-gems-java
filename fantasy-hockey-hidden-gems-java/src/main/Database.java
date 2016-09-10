@@ -66,6 +66,7 @@ class Database {
 				in.close();
 				writer.close();
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("An error occurred in getDailyStats(): " + e);
 			} 
 		}
@@ -83,6 +84,7 @@ class Database {
 				in.close();
 				writer.close();
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("An error occurred in getDailyStats(): " + e);
 			} 
 		}
@@ -100,15 +102,15 @@ class Database {
 		} catch (Exception e){
 			System.out.println("An error occurred in getDailyStats()");
 		}
-
 		
 	}
-	protected static void updateSkaterDatabase(){
+	
+	protected static void manageeSkaterDatabase(){
 		Path cwd = Paths.get("");
 		String s = cwd.toAbsolutePath().toString();
 		File f = new File(s);
 		try{
-			Database.updateSkaterDatabase(f);
+			Database.manageSkaterDatabase(f);
 		} catch (Exception e){
 			System.out.println("An error occurred in updateSkaterDatabase");
 		}
@@ -116,7 +118,7 @@ class Database {
 	/*
 	 * This method takes the newest stats and updates the individual skater files
 	 */
-	protected static void updateSkaterDatabase(File file){
+	protected static void manageSkaterDatabase(File file){
 		//fOut represents the path where the skater stats are stored for individual players
 		File fOut = new File(file, "Player Stats/Skater Stats/");
 		//fIn represents the path where the daily stats are kept
@@ -172,6 +174,7 @@ class Database {
 			writer.flush();
 			writer.close();
 		} catch(Exception e){
+			e.printStackTrace();
 			System.out.println("Problem in createSkaterFile(): " + e);
 		}
 		

@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import main.Skater;
 import main.Skater.ExistsInDB;
@@ -62,6 +63,16 @@ public class SkaterTest {
 		
 	}
 	
+	@Test
+	public void testFromJSONAndBackAgain() throws IOException, ParseException{
+		Skater skater;
+		File f = new File("src/test/Connor McDavid.json");
+		JSONParser parser = new JSONParser();
+		JSONObject object = (JSONObject)parser.parse(new FileReader(f));
+		skater = new Skater(object, ExistsInDB.YES);
+		TemporaryFolder folder = new TemporaryFolder();
+		
+	}
 
 
 }

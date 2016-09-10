@@ -136,7 +136,7 @@ public class DatabaseTest {
 				writer.close();
 				br.close();
 			}
-			Database.updateSkaterDatabase(dummyDailyFolder);
+			Database.manageSkaterDatabase(dummyDailyFolder);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
