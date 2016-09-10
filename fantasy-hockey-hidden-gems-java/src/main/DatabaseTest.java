@@ -1,7 +1,10 @@
+package main;
 import static org.junit.Assert.assertEquals;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,8 +43,8 @@ public class DatabaseTest {
 			File goalieTestFile = new File(createdDir, NOW + " Goalie Stats.json");
 			assertEquals("Skater Stats file not created", true, skaterTestFile.exists());
 			assertEquals("Goalie Stats file not created", true, goalieTestFile.exists());
-			File skaterControlFile = new File("Skater Control.json");
-			File goalieControlFile = new File("Goalie Control.json");
+			File skaterControlFile = new File("src/test/Skater Control.json");
+			File goalieControlFile = new File("src/test/Goalie Control.json");
 			
 			//parse the file
 	        JSONParser skaterTestParser = new JSONParser();
@@ -109,22 +112,37 @@ public class DatabaseTest {
 	}
 	
 //	@Test
-//	public void testUpdateSkaterDatabase(){
-//
-//		try {
-//			File subfolder = folder.newFolder("subfolder");
-//			//updateSkaterDatabase needs to happen after the DailyStats have been retrieved; for testing
-//			//purposes, need to create a dummy destination and files
-//			File dummyDailyFolder = new File(subfolder, "Daily Stats");
-//			dummyDailyFolder.mkdir();
-//			
-//			Database.updateSkaterDatabase(subfolder);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
+	public void testUpdateSkaterDatabase(){
+
+		
+		try {
+			File subfolder = folder.newFolder("subfolder");
+			//updateSkaterDatabase needs to happen after the DailyStats have been retrieved; for testing
+			//purposes, need to create a dummy destination and files
+			File dummyDailyFolder = new File(subfolder, "Daily Stats");
+			dummyDailyFolder.mkdir();
+			File dummyDailyStats = new File(dummyDailyFolder, NOW + " Skater Stats.json");
+			BufferedReader br = new BufferedReader(new FileReader("src/test/Aaron Ekblad Daily Stats 1.json"));
+			FileWriter writer = new FileWriter(dummyDailyStats);
+			try{
+				String line;
+				while((line = br.readLine()) != null){
+					writer.write(line);
+				}
+				 
+			}catch (Exception e){
+				e.printStackTrace();
+			} finally{
+				writer.close();
+				br.close();
+			}
+			Database.updateSkaterDatabase(dummyDailyFolder);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	class JSONComparator implements Comparator<JSONObject>{
 
@@ -138,5 +156,13 @@ public class DatabaseTest {
 		
 	}
 	
-	
+	@Test
+	public void update(){
+		try{
+			Database.getDailyStats();
+			Database.updateSkaterDatabase();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }

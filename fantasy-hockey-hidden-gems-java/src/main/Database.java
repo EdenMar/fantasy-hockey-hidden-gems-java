@@ -1,3 +1,4 @@
+package main;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,6 +18,8 @@ import java.io.FileWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import main.Skater.ExistsInDB;
 
 
 class Database {
@@ -131,10 +134,8 @@ class Database {
 	        for (Object elementOfSkaterData : skaterData){
 	        	JSONObject skaterObject = (JSONObject) elementOfSkaterData;
 	        	String name = (String) skaterObject.get("playerName");
-
 	        	File skaterFile = new File(fOut, name + ".json");
 	        	if (!skaterFile.exists()){
-
 	        		createSkaterFile(skaterObject, skaterFile);
 	        	}
 	        	else{
@@ -159,14 +160,15 @@ class Database {
 	 * DB file for each skater
 	 */
 	private static void createSkaterFile(JSONObject player, File filePath){
-		Skater skater = new Skater(player);
+		Skater skater = new Skater(player, ExistsInDB.NO);
 		//create new Skater instance
 		//take data from the skaterObject
 		//assign to Skater instance
 		//write to file
+		
 		try{
 			FileWriter writer = new FileWriter(filePath);
-			writer.write(skater.createSkaterJSON().toString());
+			skater.createSkaterJSON().writeJSONString(writer);
 			writer.flush();
 			writer.close();
 		} catch(Exception e){

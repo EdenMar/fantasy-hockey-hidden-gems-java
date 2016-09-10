@@ -1,9 +1,16 @@
+package main;
 import java.util.ArrayDeque;
 import org.json.simple.*;
 
+
 public class Skater {
 	
-	private String name;
+	public enum ExistsInDB{
+		YES,
+		NO
+	}
+	
+	private String playerName;
 	private String playerPositionCode;
 //	private ArrayDeque<Integer> gamesPlayedQueue;
 	private int totalGamesPlayed;
@@ -26,34 +33,51 @@ public class Skater {
 	private int totalShots;
 	
 	
-	//constructor assumes playerJSON is from a player that doesn't exist in the DB
-	public Skater(JSONObject playerJSON){
-		this.name = (String) playerJSON.get("playerName");
+	//depending on whether player is in DB or not, the keys to the JSONObject provided changes
+	public Skater(JSONObject playerJSON, ExistsInDB yesOrNo){
+		this.playerName = (String) playerJSON.get("playerName");
 		this.playerPositionCode = (String) playerJSON.get("playerPositionCode");
-		this.totalGamesPlayed = (Integer) playerJSON.get("gamesPlayed");
-		this.goalsQueue.add((Integer)playerJSON.get("goals"));
-		this.totalGoals = (Integer)playerJSON.get("goals");
-		this.assistsQueue.add((Integer)playerJSON.get("assists"));
-		this.totalAssists = (Integer)playerJSON.get("assists");
-		this.pointsQueue.add((Integer)playerJSON.get("points"));
-		this.totalPoints = (Integer)playerJSON.get("points");
-		this.plusMinusQueue.add((Integer)playerJSON.get("plusMinus"));
-		this.totalPlusMinus = (Integer)playerJSON.get("plusMinus");
-		this.penaltyMinutesQueue.add((Integer)playerJSON.get("penaltyMinutes"));
-		this.totalPenaltyMinutes = (Integer)playerJSON.get("penaltyMinutes");
-		this.ppPointsQueue.add((Integer)playerJSON.get("ppPoints"));
-		this.totalppPoints = (Integer)playerJSON.get("ppPoints");
-		this.ppGoalsQueue.add((Integer)playerJSON.get("ppGoals"));
-		this.totalppGoals = (Integer)playerJSON.get("ppGoals");
-		this.shGoals = (Integer)playerJSON.get("shGoals");
-		this.shotsQueue.add((Integer)playerJSON.get("shots"));
-		this.totalShots = (Integer)playerJSON.get("shots");
 		
-		
+		if (yesOrNo == ExistsInDB.NO){
+			this.totalGamesPlayed = ((Long) playerJSON.get("gamesPlayed")).intValue();
+	
+			this.totalGoals = ((Long)playerJSON.get("goals")).intValue();
+			this.goalsQueue.add(this.getTotalGoals());
+			
+			this.totalAssists = ((Long)playerJSON.get("assists")).intValue();
+			this.assistsQueue.add(this.getTotalAssists());
+	
+			this.totalPoints = ((Long)playerJSON.get("points")).intValue();
+			this.pointsQueue.add(this.getTotalPoints());
+			
+			this.totalPlusMinus = ((Long)playerJSON.get("plusMinus")).intValue();
+			this.plusMinusQueue.add(this.getTotalPlusMinus());
+			
+			this.totalPenaltyMinutes = ((Long)playerJSON.get("penaltyMinutes")).intValue();
+			this.penaltyMinutesQueue.add(this.getTotalPenaltyMinutes());
+	
+			this.totalppPoints = ((Long)playerJSON.get("ppPoints")).intValue();
+			this.ppPointsQueue.add(this.getTotalppPoints());
+			
+			this.totalppGoals = ((Long)playerJSON.get("ppGoals")).intValue();
+			this.ppGoalsQueue.add(this.getTotalppGoals());
+			
+			
+			this.shGoals = ((Long)playerJSON.get("shGoals")).intValue();
+	
+			this.totalShots = ((Long)playerJSON.get("shots")).intValue();
+			this.shotsQueue.add(this.getTotalShots());
+		}
+		else{
+			this.totalGamesPlayed = ((Long)playerJSON.get("gamesPlayed")).intValue();
+			this.goalsQueue = convertToArrayDeque((JSONArray)playerJSON.get("goalsQueue"));
+//			this.totalGoals = ((Long)playerJSON.get("totalGoals")).intValue();
+		}
+
 	}
 
 	public String getName(){
-		return name;
+		return playerName;
 	}
 	
 	public String getPlayerPositionCode(){
@@ -216,33 +240,64 @@ public class Skater {
 		this.shotsQueue = shots;
 	}
 	
+	protected ArrayDeque<Integer> convertToArrayDeque(JSONArray array){
+		ArrayDeque<Integer> data = new ArrayDeque<Integer>(10);
+		try{
+			for (Object o : array){
+				Integer tmp = (Integer)o;
+				data.add(tmp);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return data;
+	}
+	
+	/*
+	 * When outputting to a JSON file, the toJSONString() method changes the 
+	 * ArrayDeque objects to String objects; reading a JSON file back means
+	 * the data cannot be converted to a JSONArray, but a String instead.
+	 * This method acts as a utility method to help createSkaterJSON() create 
+	 * a JSONObject with JSONArrays instead 
+	 */
+	@SuppressWarnings("unchecked")
+	protected JSONArray convertToJSONArray(ArrayDeque<Integer> deque){
+		JSONArray list = new JSONArray();
+		for (int i = 0; i < deque.size(); i++){
+			list.add(deque.removeFirst());
+		}
+		return list;
+	}
+	
 	//returns a JSONObject to be written to DB, different <K, V> than NHL website
 	//SuppressedWarning as JSONObject inherits from HashMap, but doesn't inherit <K,V>
 	//http://stackoverflow.com/questions/2927370/how-to-solve-this-java-type-safety-warning
 	@SuppressWarnings("unchecked")
 	protected JSONObject createSkaterJSON(){
 		JSONObject skater = new JSONObject();
-		skater.put("playerName", this.name);
+		skater.put("playerName", this.playerName);
 		skater.put("gamesPlayed", this.totalGamesPlayed);
 		skater.put("playerPositionCode", this.playerPositionCode);
-		skater.put("goalsQueue", this.goalsQueue);
-		skater.put("totalGoal", this.totalGoals);
-		skater.put("assistsQueue", this.assistsQueue);
+		skater.put("goalsQueue", convertToJSONArray(this.goalsQueue));
+		skater.put("totalGoals", this.totalGoals);
+		skater.put("assistsQueue", convertToJSONArray(this.assistsQueue));
 		skater.put("totalAssists", this.totalAssists);
 		skater.put("totalPoints", this.totalPoints);
-		skater.put("pointsQueue", this.pointsQueue);
-		skater.put("plusMinusQueue", this.plusMinusQueue);
+		skater.put("pointsQueue", convertToJSONArray(this.pointsQueue));
+		skater.put("plusMinusQueue", convertToJSONArray(this.plusMinusQueue));
 		skater.put("totalPlusMinus", this.totalPlusMinus);
-		skater.put("penaltyMinutesQueue", this.penaltyMinutesQueue);
+		skater.put("penaltyMinutesQueue", convertToJSONArray(this.penaltyMinutesQueue));
 		skater.put("totalPenaltyMinutes", this.totalPenaltyMinutes);
-		skater.put("ppGoalsQueue", this.ppGoalsQueue);
+		skater.put("ppGoalsQueue", convertToJSONArray(this.ppGoalsQueue));
 		skater.put("totalppGoals", this.totalppGoals);
-		skater.put("ppPointsQueue", this.ppPointsQueue);
+		skater.put("ppPointsQueue", convertToJSONArray(this.ppPointsQueue));
 		skater.put("totalppPoints", this.totalppPoints);
-		skater.put("shotsQueue", this.shotsQueue);
+		skater.put("shotsQueue", convertToJSONArray(this.shotsQueue));
 		skater.put("totalShots", this.totalShots);
 		skater.put("shGoals", this.shGoals);
 		return skater;
 	}
 	
 }
+
+
