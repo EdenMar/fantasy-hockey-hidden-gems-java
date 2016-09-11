@@ -28,7 +28,7 @@ public class SkaterTest {
 	public void testConstructorWhenNewToDB() throws Exception, IOException, ParseException{
 		Skater skater;
 
-		File f = new File("src/test/Aaron Ekblad Daily Stats 1.json");
+		File f = new File("test/Aaron Ekblad Daily Stats 1.json");
 		JSONParser p = new JSONParser();
 		JSONObject o = (JSONObject)p.parse(new FileReader(f));
 		skater = new Skater(o, ExistsInDB.NO);
@@ -48,7 +48,7 @@ public class SkaterTest {
 	@Test
 	public void testConstructorWhenDBExists() throws Exception, IOException, ParseException{
 		Skater skater;
-		File f = new File("src/test/Connor McDavid.json");
+		File f = new File("test/Connor McDavid.json");
 		JSONParser p = new JSONParser();
 		JSONObject o = (JSONObject)p.parse(new FileReader(f));
 		skater = new Skater(o, ExistsInDB.YES);
@@ -66,7 +66,7 @@ public class SkaterTest {
 	@Test
 	public void testFromJSONAndBackAgain() throws IOException, ParseException{
 		Skater skater;
-		File f = new File("src/test/Connor McDavid.json");
+		File f = new File("test/Connor McDavid.json");
 		JSONParser parser = new JSONParser();
 		JSONObject object = (JSONObject)parser.parse(new FileReader(f));
 		skater = new Skater(object, ExistsInDB.YES);

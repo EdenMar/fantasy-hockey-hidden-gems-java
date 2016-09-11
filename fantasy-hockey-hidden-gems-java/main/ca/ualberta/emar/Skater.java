@@ -77,7 +77,7 @@ public class Skater {
 			this.assistsQueue = convertToArrayDeque((JSONArray)playerJSON.get("assistsQueue"));
 			this.totalAssists = ((Long)playerJSON.get("totalAssists")).intValue();
 			
-			this.pointsQueue = convertToArrayDeque((JSONArray)playerJSON.get("pointsDeque"));
+			this.pointsQueue = convertToArrayDeque((JSONArray)playerJSON.get("pointsQueue"));
 			this.totalPoints = ((Long)playerJSON.get("totalPoints")).intValue();
 			
 			this.plusMinusQueue = convertToArrayDeque((JSONArray)playerJSON.get("plusMinusQueue"));
