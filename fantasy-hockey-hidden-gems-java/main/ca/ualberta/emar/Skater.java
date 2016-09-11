@@ -1,4 +1,5 @@
-package main;
+package ca.ualberta.emar;
+
 import java.util.ArrayDeque;
 import org.json.simple.*;
 

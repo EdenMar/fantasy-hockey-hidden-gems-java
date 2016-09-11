@@ -1,11 +1,11 @@
-package test;
+package ca.ualberta.emar;
 
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import main.Goalie;
+import ca.ualberta.emar.Goalie;
 
 public class GoalieTest {
 

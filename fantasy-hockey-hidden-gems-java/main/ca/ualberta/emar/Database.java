@@ -1,4 +1,5 @@
-package main;
+package ca.ualberta.emar;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,7 +20,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import main.Skater.ExistsInDB;
+import ca.ualberta.emar.Skater.ExistsInDB;
 
 
 class Database {

@@ -1,4 +1,4 @@
-package test;
+package ca.ualberta.emar;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -14,8 +14,8 @@ import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import main.Skater;
-import main.Skater.ExistsInDB;
+import ca.ualberta.emar.Skater;
+import ca.ualberta.emar.Skater.ExistsInDB;
 
 public class SkaterTest {
 

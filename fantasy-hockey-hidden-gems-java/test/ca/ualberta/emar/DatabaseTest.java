@@ -1,4 +1,4 @@
-package main;
+package ca.ualberta.emar;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import java.io.BufferedReader;
@@ -43,8 +43,8 @@ public class DatabaseTest {
 			File goalieTestFile = new File(createdDir, NOW + " Goalie Stats.json");
 			assertEquals("Skater Stats file not created", true, skaterTestFile.exists());
 			assertEquals("Goalie Stats file not created", true, goalieTestFile.exists());
-			File skaterControlFile = new File("src/test/Skater Control.json");
-			File goalieControlFile = new File("src/test/Goalie Control.json");
+			File skaterControlFile = new File("test/Skater Control.json");
+			File goalieControlFile = new File("test/Goalie Control.json");
 			
 			//parse the file
 	        JSONParser skaterTestParser = new JSONParser();
@@ -91,9 +91,10 @@ public class DatabaseTest {
 	        
 	        assertEquals("Goalie comparison problems", true, goalieControlArray.equals(goalieTestArray));
 
-	        assertEquals("Skater comparison problems", true, skaterControlArray.equals(skaterTestArray));
+	        assertArrayEquals("Skater comparison problems", skaterControlArray.toArray(), skaterTestArray.toArray());
 
 		} catch (Exception e){
+			e.printStackTrace();
 			System.out.println(e);
 		}
 	}
@@ -122,7 +123,7 @@ public class DatabaseTest {
 			File dummyDailyFolder = new File(subfolder, "Daily Stats");
 			dummyDailyFolder.mkdir();
 			File dummyDailyStats = new File(dummyDailyFolder, NOW + " Skater Stats.json");
-			BufferedReader br = new BufferedReader(new FileReader("src/test/Aaron Ekblad Daily Stats 1.json"));
+			BufferedReader br = new BufferedReader(new FileReader("test/Aaron Ekblad Daily Stats 1.json"));
 			FileWriter writer = new FileWriter(dummyDailyStats);
 			try{
 				String line;
