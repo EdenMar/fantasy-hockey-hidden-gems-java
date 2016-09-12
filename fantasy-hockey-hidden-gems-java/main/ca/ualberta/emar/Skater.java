@@ -290,10 +290,12 @@ public class Skater {
 	 * This method acts as a utility method to help createSkaterJSON() create 
 	 * a JSONObject with JSONArrays instead 
 	 */
+	//http://stackoverflow.com/questions/18335214/how-to-add-arrayliststring-to-json-array-keeping-type-safety-in-mind
 	@SuppressWarnings("unchecked")
-	protected JSONArray convertToJSONArray(ArrayDeque<Integer> deque){
+	protected static JSONArray convertToJSONArray(ArrayDeque<Integer> deque){
 		JSONArray list = new JSONArray();
-		for (int i = 0; i < deque.size(); i++){
+		int size = deque.size();
+		for (int i = 0; i < size; i++){
 			list.add(deque.removeFirst());
 		}
 		return list;
