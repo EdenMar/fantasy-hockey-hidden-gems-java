@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -14,13 +15,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.io.FileWriter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
-import ca.ualberta.emar.Skater.ExistsInDB;
 
 
 class Database {
@@ -105,8 +103,11 @@ class Database {
 		}
 		
 	}
-	
-	protected static void manageeSkaterDatabase(){
+	/*
+	 * Like getDailyStats(), assumes current working directory is where work will be
+	 * done
+	 */
+	protected static void manageSkaterDatabase(){
 		Path cwd = Paths.get("");
 		String s = cwd.toAbsolutePath().toString();
 		File f = new File(s);
@@ -117,7 +118,8 @@ class Database {
 		}
 	}
 	/*
-	 * This method takes the newest stats and updates the individual skater files
+	 * This method takes the newest stats and updates the individual skater files. Takes
+	 * a filepath as an argument
 	 */
 	protected static void manageSkaterDatabase(File file){
 		//fOut represents the path where the skater stats are stored for individual players
@@ -171,7 +173,7 @@ class Database {
 		
 		try{
 			FileWriter writer = new FileWriter(filePath);
-			skater.createSkaterJSON().writeJSONString(writer);
+			skater.getSkaterJSONObject().writeJSONString(writer);
 			writer.flush();
 			writer.close();
 		} catch(Exception e){
@@ -181,8 +183,5 @@ class Database {
 		
 	}
 	
-	private static void writeJSONObjectToFile(){
-		
-	}
 	
 }

@@ -6,10 +6,7 @@ import org.json.simple.*;
 
 public class Skater {
 	
-	public enum ExistsInDB{
-		YES,
-		NO
-	}
+
 	
 	private String playerName;
 	private String playerPositionCode;
@@ -305,7 +302,7 @@ public class Skater {
 	//SuppressedWarning as JSONObject inherits from HashMap, but doesn't inherit <K,V>
 	//http://stackoverflow.com/questions/2927370/how-to-solve-this-java-type-safety-warning
 	@SuppressWarnings("unchecked")
-	protected JSONObject createSkaterJSON(){
+	protected JSONObject getSkaterJSONObject(){
 		JSONObject skater = new JSONObject();
 		skater.put("playerName", this.playerName);
 		skater.put("gamesPlayed", this.totalGamesPlayed);

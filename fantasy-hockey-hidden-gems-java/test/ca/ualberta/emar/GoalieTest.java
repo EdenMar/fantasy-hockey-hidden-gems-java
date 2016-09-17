@@ -1,11 +1,11 @@
 package ca.ualberta.emar;
 
-import static org.junit.Assert.fail;
+import java.io.File;
+import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import ca.ualberta.emar.Goalie;
+import org.junit.rules.TemporaryFolder;
 
 public class GoalieTest {
 
@@ -17,8 +17,11 @@ public class GoalieTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void test() throws IOException {
+		TemporaryFolder folder = new TemporaryFolder();
+		File subfolder = folder.newFolder("subfolder");
+		
+		
 	}
 
 }

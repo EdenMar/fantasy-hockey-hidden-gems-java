@@ -16,8 +16,6 @@ import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import ca.ualberta.emar.Skater.ExistsInDB;
-
 public class SkaterTest {
 
 
@@ -75,7 +73,7 @@ public class SkaterTest {
 		File subfolder = folder.newFolder("subfolder");
 		File fOut = new File(subfolder, "Test.json");
 		FileWriter writer = new FileWriter(fOut);
-		skaterInitial.createSkaterJSON().writeJSONString(writer);
+		skaterInitial.getSkaterJSONObject().writeJSONString(writer);
 		writer.flush();
 		writer.close();
 		File f2 = new File(subfolder, "Test.json");
