@@ -164,7 +164,7 @@ class Database {
 	 * createSkaterFile takes the JSONObject player and a filepath and creates the individual
 	 * DB file for each skater
 	 */
-	private static void createSkaterFile(JSONObject player, File filePath){
+	protected static void createSkaterFile(JSONObject player, File filePath){
 		Skater skater = new Skater(player, ExistsInDB.NO);
 		//create new Skater instance
 		//take data from the skaterObject
@@ -180,6 +180,10 @@ class Database {
 			e.printStackTrace();
 			System.out.println("Problem in createSkaterFile(): " + e);
 		}
+		
+	}
+	
+	protected static void updateSkaterFile(JSONObject oldData, JSONObject newData){
 		
 	}
 	

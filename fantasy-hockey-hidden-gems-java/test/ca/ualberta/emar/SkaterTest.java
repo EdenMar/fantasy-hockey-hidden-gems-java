@@ -2,17 +2,22 @@ package ca.ualberta.emar;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
@@ -23,6 +28,9 @@ public class SkaterTest {
 	 * This test checks if the data from the test can be properly instantiated in an instance
 	 * of Skater. 
 	 */
+	@Rule
+	public TemporaryFolder folder = new TemporaryFolder();
+	
 	@Test
 	public void testConstructorWhenNewToDB() throws Exception, IOException, ParseException{
 		Skater skater;
@@ -62,14 +70,14 @@ public class SkaterTest {
 		
 	}
 	
-//	@Test
+	@Test
 	public void testFromJSONAndBackAgain() throws IOException, ParseException{
 		Skater skaterInitial;
 		File f = new File("test/Connor McDavid.json");
 		JSONParser parser = new JSONParser();
 		JSONObject object = (JSONObject)parser.parse(new FileReader(f));
 		skaterInitial = new Skater(object, ExistsInDB.YES);
-		TemporaryFolder folder = new TemporaryFolder();
+		
 		File subfolder = folder.newFolder("subfolder");
 		File fOut = new File(subfolder, "Test.json");
 		FileWriter writer = new FileWriter(fOut);
@@ -80,7 +88,10 @@ public class SkaterTest {
 		JSONParser testParser = new JSONParser();
 		JSONObject testObject = (JSONObject) testParser.parse(new FileReader(f2));
 		Skater testSkater = new Skater(testObject, ExistsInDB.YES);
-		assertEquals("Different", true, skaterInitial.equals(testSkater));
+		assertTrue(testSkater instanceof Skater);
+		assertTrue(skaterInitial instanceof Skater);
+		assertTrue(skaterInitial.equals(testSkater));
+		
 		
 	}
 
@@ -106,6 +117,26 @@ public class SkaterTest {
 		assertEquals("Wrong size", 2, a.size());
 		assertEquals(a.get(0), new Integer(98));
 		assertEquals(a.get(1), new Integer(52));
+	}
+	
+//	@Test
+	public void testEquals() throws FileNotFoundException, IOException, ParseException{
+		Skater inDB;
+		File f = new File("test/Connor McDavid.json");
+		JSONParser inDBParser = new JSONParser();
+		JSONObject inDBObject = (JSONObject)inDBParser.parse(new FileReader(f));
+		inDB = new Skater(inDBObject, ExistsInDB.YES);
+		
+		Skater noDB;
+		File f2 = new File("test/Connor McDavid Daily Stats.json");
+		JSONParser noDBParser = new JSONParser();
+		JSONObject noDBObject = (JSONObject)noDBParser.parse(new FileReader(f2));
+		noDB = new Skater(noDBObject, ExistsInDB.NO);
+		Object o = new Object();
+		assertFalse(inDB.equals(o));
+		assertTrue(inDB.equals(inDB));
+		assertTrue(noDB.equals(noDB));
+		assertTrue(noDB.equals(inDB));
 	}
 	
 }

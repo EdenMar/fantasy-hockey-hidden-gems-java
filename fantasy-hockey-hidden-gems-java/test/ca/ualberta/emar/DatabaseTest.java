@@ -1,16 +1,18 @@
 package ca.ualberta.emar;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,6 +20,8 @@ import org.json.simple.parser.JSONParser;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import com.sun.org.apache.bcel.internal.util.Objects;
 
 public class DatabaseTest {
 	
@@ -29,7 +33,7 @@ public class DatabaseTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
 
-	@Test
+//	@Test
 	public void testGetDailyStatsCorrectness() {
 
 		try{
@@ -99,7 +103,7 @@ public class DatabaseTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testGetDailyStatsNumberFiles(){
 		try{
 			File subfolder = folder.newFolder("subfolder");
@@ -112,34 +116,32 @@ public class DatabaseTest {
 		}
 	}
 	
-//	@Test
-	public void testUpdateSkaterDatabase(){
+	/*
+	 * This tests createSkaterDatabase() whether it can create a new skater in the DB from
+	 * the NHL JSON format
+	 */
+	@Test
+	public void testCreateSkaterDatabase(){
 
 		
 		try {
 			File subfolder = folder.newFolder("subfolder");
-			//updateSkaterDatabase needs to happen after the DailyStats have been retrieved; for testing
-			//purposes, need to create a dummy destination and files
-			File dummyDailyFolder = new File(subfolder, "Daily Stats");
-			dummyDailyFolder.mkdir();
-			File dummyDailyStats = new File(dummyDailyFolder, NOW + " Skater Stats.json");
-			BufferedReader br = new BufferedReader(new FileReader("test/Aaron Ekblad Daily Stats 1.json"));
-			FileWriter writer = new FileWriter(dummyDailyStats);
-			try{
-				String line;
-				while((line = br.readLine()) != null){
-					writer.write(line);
-				}
-				 
-			}catch (Exception e){
-				e.printStackTrace();
-			} finally{
-				writer.close();
-				br.close();
-			}
-			Database.manageSkaterDatabase(dummyDailyFolder);
+			//
+			File testFile = new File("test/Aaron Ekblad Daily Stats 1.json");
+			JSONParser parser = new JSONParser();
+			JSONObject initialPlayer = (JSONObject)parser.parse(new FileReader(testFile));
+			File createdFile = new File(subfolder, "Aaron Ekblad.json");
+			assertFalse(createdFile.exists());
+			Database.createSkaterFile(initialPlayer, createdFile);
+			assertTrue(createdFile.exists());
+			JSONParser testParser = new JSONParser();
+			JSONObject finalPlayer = (JSONObject)testParser.parse(new FileReader(createdFile));
+			Skater initialSkater = new Skater(initialPlayer, ExistsInDB.NO);
+			Skater finalSkater = new Skater(finalPlayer, ExistsInDB.YES);
+			
+
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

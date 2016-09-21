@@ -1,6 +1,9 @@
 package ca.ualberta.emar;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Objects;
+
 import org.json.simple.*;
 
 
@@ -327,6 +330,43 @@ public class Skater {
 		return skater;
 	}
 	
+	@Override
+	public boolean equals(Object o){
+
+		if (o == this){
+			System.out.println("why");
+			return true;
+		}
+		
+		if (!(o instanceof Skater)){
+			System.out.println("yeah");
+			return false;
+		}
+		
+		Skater s = (Skater)o;
+		
+		return 
+				this.playerName.equals(s.getName()) &&
+		this.totalGamesPlayed == s.getTotalGamesPlayed() &&
+		this.playerPositionCode.equals(s.getPlayerPositionCode());
+//		Arrays.equals(this.goalsQueue.toArray(), s.getGoals().toArray()) &&
+//		this.totalGoals == s.getTotalGoals() &&
+//		Arrays.equals(this.assistsQueue.toArray(), s.getAssists().toArray()) &&
+//		this.totalAssists == s.getTotalAssists() &&
+//		Arrays.equals(this.pointsQueue.toArray(), s.getPoints().toArray()) &&
+//		this.totalPoints == s.getTotalPoints() &&
+//		this.totalPlusMinus == s.getTotalPlusMinus() &&
+//		Arrays.equals(this.plusMinusQueue.toArray(), s.getPlusMinus().toArray()) &&
+//		this.totalPenaltyMinutes == s.getTotalPenaltyMinutes() &&
+//		Arrays.equals(this.penaltyMinutesQueue.toArray(), s.getPenaltyMinutes().toArray()) &&
+//		this.totalppGoals == s.getTotalppGoals() &&
+//		Arrays.equals(this.ppGoalsQueue.toArray(), s.getppGoals().toArray()) &&
+//		this.totalppPoints == s.getTotalppPoints() &&
+//		Arrays.equals(this.ppPointsQueue.toArray(), s.getppPoints().toArray()) &&
+//		this.totalShots == s.getTotalShots() &&
+//		Arrays.equals(this.shotsQueue.toArray(), s.getShots().toArray()) &&
+//		this.shGoals == s.getshGoals();
+	}
 }
 
 
