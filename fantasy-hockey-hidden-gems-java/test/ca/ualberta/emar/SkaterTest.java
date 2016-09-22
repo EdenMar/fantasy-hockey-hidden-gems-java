@@ -78,25 +78,15 @@ public class SkaterTest {
 		JSONObject object = (JSONObject)parser.parse(new FileReader(f));
 		skaterInitial = new Skater(object, ExistsInDB.YES);
 		
-		System.out.println(skaterInitial.getGoals());
-		System.out.println(skaterInitial.getGoals());
-		System.out.println(skaterInitial.getGoals());
-		
 		File subfolder = folder.newFolder("subfolder");
 		File fOut = new File(subfolder, "Test.json");
 		FileWriter writer = new FileWriter(fOut);
-		
-		System.out.println("4th");
-		System.out.println(skaterInitial.getGoals());
-		
+
 		writer.write(skaterInitial.getSkaterJSONObject().toJSONString());
-		
-		System.out.println(skaterInitial.getGoals());
-		
+
 		writer.flush();
 		writer.close();
 		
-		System.out.println(skaterInitial.getGoals());
 		
 		File f2 = new File(subfolder, "Test.json");
 		JSONParser testParser = new JSONParser();
@@ -104,10 +94,6 @@ public class SkaterTest {
 		Skater testSkater = new Skater(testObject, ExistsInDB.YES);
 		assertTrue(testSkater instanceof Skater);
 		assertTrue(skaterInitial instanceof Skater);
-		
-		System.out.println(skaterInitial.getGoals());
-		
-		System.out.println(testSkater.getGoals());
 		
 		assertTrue(skaterInitial.equals(testSkater));
 		
@@ -139,7 +125,7 @@ public class SkaterTest {
 		assertEquals(a.get(1), new Integer(52));
 	}
 	
-//	@Test
+	@Test
 	public void testEquals() throws FileNotFoundException, IOException, ParseException{
 		Skater inDB;
 		File f = new File("test/Connor McDavid.json");
