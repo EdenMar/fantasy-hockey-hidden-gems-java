@@ -3,8 +3,10 @@ import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -103,7 +106,7 @@ public class DatabaseTest {
 		}
 	}
 	
-//	@Test
+	@Test
 	public void testGetDailyStatsNumberFiles(){
 		try{
 			File subfolder = folder.newFolder("subfolder");
@@ -121,7 +124,7 @@ public class DatabaseTest {
 	 * the NHL JSON format
 	 */
 	@Test
-	public void testCreateSkaterDatabase(){
+	public void testCreateSkaterFile(){
 
 		
 		try {
@@ -138,12 +141,26 @@ public class DatabaseTest {
 			JSONObject finalPlayer = (JSONObject)testParser.parse(new FileReader(createdFile));
 			Skater initialSkater = new Skater(initialPlayer, ExistsInDB.NO);
 			Skater finalSkater = new Skater(finalPlayer, ExistsInDB.YES);
-			
+			assertTrue(initialSkater.equals(finalSkater));
 
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	/*
+	 * Tests whether the DB file of a given skater is updated correctly
+	 */
+	@Test
+	public void testUpdateSkaterFile() throws FileNotFoundException, IOException, ParseException{
+		File oldDataFile = new File("test/Aaron Ekblad Daily Stats 1.json");
+		File newDataFile = new File("test/Aaron Ekblad Daily Stats 2.json");
+		JSONParser parseOldData = new JSONParser();
+		JSONParser parseNewData = new JSONParser();
+		JSONObject oldJSONObject = (JSONObject)parseOldData.parse(new FileReader(oldDataFile));
+		JSONObject newJSONObject = (JSONObject)parseNewData.parse(new FileReader(newDataFile));
 		
 	}
 
