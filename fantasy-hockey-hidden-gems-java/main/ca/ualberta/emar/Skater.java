@@ -142,9 +142,7 @@ public class Skater {
 	}
 	
 	public ArrayDeque<Integer> getGoals(){
-		ArrayDeque<Integer> g = new ArrayDeque<Integer>(10);
-		g = this.goalsQueue.clone();
-		return g;
+		return this.goalsQueue;
 	}
 	
 	public int getTotalAssists(){
@@ -293,6 +291,7 @@ public class Skater {
 	 * a JSONObject with JSONArrays instead 
 	 */
 	//http://stackoverflow.com/questions/18335214/how-to-add-arrayliststring-to-json-array-keeping-type-safety-in-mind
+	//previous bug was due to removing the elements from the ArrayDeque during the conversion
 	@SuppressWarnings("unchecked")
 	protected static JSONArray convertToJSONArray(ArrayDeque<Integer> deque){
 		JSONArray list = new JSONArray();
@@ -333,23 +332,24 @@ public class Skater {
 		return skater;
 	}
 	
+	/*previous bug likely due to an unseen spacing issue, needed to retype 
+	method. Identical to previous versions
+	http://www.javapractices.com/topic/TopicAction.do?Id=17
+	*/
 	@Override
 	public boolean equals(Object o){
 
-		if (o == this){
-			System.out.println("why");
+		if (o == this)
 			return true;
-		}
 		
-		if (!(o instanceof Skater)){
-			System.out.println("yeah");
+		
+		if (!(o instanceof Skater))
 			return false;
-		}
+		
 		
 		Skater s = (Skater)o;
 		
-		return 
-				this.playerName.equals(s.getName())
+		return this.playerName.equals(s.getName())
 		&& this.totalGamesPlayed == s.getTotalGamesPlayed()
 		&& this.playerPositionCode.equals(s.getPlayerPositionCode())
 		&& Arrays.equals(this.goalsQueue.toArray(), s.getGoals().toArray())

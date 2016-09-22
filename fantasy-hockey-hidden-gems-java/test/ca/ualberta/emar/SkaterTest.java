@@ -92,13 +92,9 @@ public class SkaterTest {
 		JSONParser testParser = new JSONParser();
 		JSONObject testObject = (JSONObject) testParser.parse(new FileReader(f2));
 		Skater testSkater = new Skater(testObject, ExistsInDB.YES);
-		assertTrue(testSkater instanceof Skater);
-		assertTrue(skaterInitial instanceof Skater);
 		
 		assertTrue(skaterInitial.equals(testSkater));
-		
-		
-		
+		assertTrue(testSkater.equals(skaterInitial));
 	}
 
 
@@ -133,16 +129,40 @@ public class SkaterTest {
 		JSONObject inDBObject = (JSONObject)inDBParser.parse(new FileReader(f));
 		inDB = new Skater(inDBObject, ExistsInDB.YES);
 		
+		Skater inDB2;
+		JSONParser inDBParser2 = new JSONParser();
+		JSONObject inDBObject2 = (JSONObject)inDBParser2.parse(new FileReader(f));
+		inDB2 = new Skater(inDBObject2, ExistsInDB.YES);
+		
+		Skater inDB3;
+		JSONParser inDBParser3 = new JSONParser();
+		JSONObject inDBObject3 = (JSONObject)inDBParser3.parse(new FileReader(f));
+		inDB3 = new Skater(inDBObject3, ExistsInDB.YES);
+		
 		Skater noDB;
 		File f2 = new File("test/Connor McDavid Daily Stats.json");
 		JSONParser noDBParser = new JSONParser();
 		JSONObject noDBObject = (JSONObject)noDBParser.parse(new FileReader(f2));
 		noDB = new Skater(noDBObject, ExistsInDB.NO);
 		Object o = new Object();
+		//https://examples.javacodegeeks.com/core-java/lang/java-equals-method-example/
 		assertFalse(inDB.equals(o));
+		//reflexive
 		assertTrue(inDB.equals(inDB));
 		assertTrue(noDB.equals(noDB));
+		
+		//symmetric
+		assertTrue(inDB.equals(inDB2));
+		assertTrue(inDB2.equals(inDB));
+		
+		//transitive
+		boolean t = inDB.equals(inDB2) && inDB2.equals(inDB3);
+		assertTrue(t);
+		assertEquals("Not transitive!", inDB.equals(inDB3), t);
+		
+		//DB and non DB skaters identical?
 		assertTrue(noDB.equals(inDB));
+		
 	}
 	
 }
