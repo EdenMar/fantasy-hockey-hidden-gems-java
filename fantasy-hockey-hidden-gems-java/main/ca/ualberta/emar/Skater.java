@@ -142,7 +142,9 @@ public class Skater {
 	}
 	
 	public ArrayDeque<Integer> getGoals(){
-		return goalsQueue;
+		ArrayDeque<Integer> g = new ArrayDeque<Integer>(10);
+		g = this.goalsQueue.clone();
+		return g;
 	}
 	
 	public int getTotalAssists(){
@@ -294,9 +296,10 @@ public class Skater {
 	@SuppressWarnings("unchecked")
 	protected static JSONArray convertToJSONArray(ArrayDeque<Integer> deque){
 		JSONArray list = new JSONArray();
+		ArrayDeque<Integer> a = deque.clone();
 		int size = deque.size();
 		for (int i = 0; i < size; i++){
-			list.add(deque.removeFirst());
+			list.add(a.removeFirst());
 		}
 		return list;
 	}
@@ -348,24 +351,24 @@ public class Skater {
 		return 
 				this.playerName.equals(s.getName()) &&
 		this.totalGamesPlayed == s.getTotalGamesPlayed() &&
-		this.playerPositionCode.equals(s.getPlayerPositionCode());
-//		Arrays.equals(this.goalsQueue.toArray(), s.getGoals().toArray()) &&
-//		this.totalGoals == s.getTotalGoals() &&
-//		Arrays.equals(this.assistsQueue.toArray(), s.getAssists().toArray()) &&
-//		this.totalAssists == s.getTotalAssists() &&
-//		Arrays.equals(this.pointsQueue.toArray(), s.getPoints().toArray()) &&
-//		this.totalPoints == s.getTotalPoints() &&
-//		this.totalPlusMinus == s.getTotalPlusMinus() &&
-//		Arrays.equals(this.plusMinusQueue.toArray(), s.getPlusMinus().toArray()) &&
-//		this.totalPenaltyMinutes == s.getTotalPenaltyMinutes() &&
-//		Arrays.equals(this.penaltyMinutesQueue.toArray(), s.getPenaltyMinutes().toArray()) &&
-//		this.totalppGoals == s.getTotalppGoals() &&
-//		Arrays.equals(this.ppGoalsQueue.toArray(), s.getppGoals().toArray()) &&
-//		this.totalppPoints == s.getTotalppPoints() &&
-//		Arrays.equals(this.ppPointsQueue.toArray(), s.getppPoints().toArray()) &&
-//		this.totalShots == s.getTotalShots() &&
-//		Arrays.equals(this.shotsQueue.toArray(), s.getShots().toArray()) &&
-//		this.shGoals == s.getshGoals();
+		this.playerPositionCode.equals(s.getPlayerPositionCode()) &&
+		Arrays.equals(this.goalsQueue.toArray(), s.getGoals().toArray()) &&
+		this.totalGoals == s.getTotalGoals() &&
+		Arrays.equals(this.assistsQueue.toArray(), s.getAssists().toArray()) &&
+		this.totalAssists == s.getTotalAssists() &&
+		Arrays.equals(this.pointsQueue.toArray(), s.getPoints().toArray()) &&
+		this.totalPoints == s.getTotalPoints() &&
+		this.totalPlusMinus == s.getTotalPlusMinus() &&
+		Arrays.equals(this.plusMinusQueue.toArray(), s.getPlusMinus().toArray()) &&
+		this.totalPenaltyMinutes == s.getTotalPenaltyMinutes() &&
+		Arrays.equals(this.penaltyMinutesQueue.toArray(), s.getPenaltyMinutes().toArray()) &&
+		this.totalppGoals == s.getTotalppGoals() &&
+		Arrays.equals(this.ppGoalsQueue.toArray(), s.getppGoals().toArray()) &&
+		this.totalppPoints == s.getTotalppPoints() &&
+		Arrays.equals(this.ppPointsQueue.toArray(), s.getppPoints().toArray()) &&
+		this.totalShots == s.getTotalShots() &&
+		Arrays.equals(this.shotsQueue.toArray(), s.getShots().toArray()) &&
+		this.shGoals == s.getshGoals();
 	}
 }
 
