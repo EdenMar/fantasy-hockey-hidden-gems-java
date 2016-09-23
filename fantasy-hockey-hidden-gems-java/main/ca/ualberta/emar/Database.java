@@ -184,7 +184,15 @@ class Database {
 	}
 	
 	protected static void updateSkaterFile(JSONObject oldData, JSONObject newData){
+		Skater oldPlayer = new Skater(oldData, ExistsInDB.NO);
+		Skater newPlayer = new Skater(newData, ExistsInDB.NO);
 		
+		if (true){
+			System.out.println("Do function");
+		}
+		else{
+			System.out.println("Ignore");
+		}
 	}
 	
 	

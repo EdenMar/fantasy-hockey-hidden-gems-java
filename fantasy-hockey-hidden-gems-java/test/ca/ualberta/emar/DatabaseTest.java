@@ -106,7 +106,7 @@ public class DatabaseTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testGetDailyStatsNumberFiles(){
 		try{
 			File subfolder = folder.newFolder("subfolder");
@@ -161,7 +161,7 @@ public class DatabaseTest {
 		JSONParser parseNewData = new JSONParser();
 		JSONObject oldJSONObject = (JSONObject)parseOldData.parse(new FileReader(oldDataFile));
 		JSONObject newJSONObject = (JSONObject)parseNewData.parse(new FileReader(newDataFile));
-		
+		Database.updateSkaterFile(oldJSONObject, newJSONObject);
 	}
 
 	class JSONComparator implements Comparator<JSONObject>{
