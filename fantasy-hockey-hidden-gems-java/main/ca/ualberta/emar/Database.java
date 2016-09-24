@@ -142,7 +142,8 @@ class Database {
 	        	String name = (String) skaterObject.get("playerName");
 	        	File skaterFile = new File(fOut, name + ".json");
 	        	if (!skaterFile.exists()){
-	        		createSkaterFile(skaterObject, skaterFile);
+	        		Skater s = new Skater(skaterObject, DataFromDB.NO);
+	        		createSkaterFile(s, skaterFile);
 	        	}
 	        	else{
 	        		//skaterFile exists
@@ -162,11 +163,10 @@ class Database {
 		
 	}
 	/*
-	 * createSkaterFile takes the JSONObject player and a filepath and creates the individual
-	 * DB file for each skater
+	 * createSkaterFile takes the Skater object and a filepath and creates the individual
+	 * DB file for each skater or overwrites the file
 	 */
-	protected static void createSkaterFile(JSONObject player, File filePath){
-		Skater skater = new Skater(player, DataFromDB.NO);
+	protected static void createSkaterFile(Skater player, File filePath){
 		//create new Skater instance
 		//take data from the skaterObject
 		//assign to Skater instance
@@ -174,7 +174,7 @@ class Database {
 		
 		try{
 			FileWriter writer = new FileWriter(filePath);
-			skater.getSkaterJSONObject().writeJSONString(writer);
+			player.getSkaterJSONObject().writeJSONString(writer);
 			writer.flush();
 			writer.close();
 		} catch(Exception e){
@@ -184,15 +184,40 @@ class Database {
 		
 	}
 	
-	protected static void updateSkaterFile(Skater oldData, Skater newData, File filepath){
+	protected static void updateSkaterFile(Skater dbData, Skater newData, File filepath){
 
 		
-		if (oldData.getTotalGamesPlayed() < newData.getTotalGamesPlayed()){
-			Database.updateStatQueue(oldData.getGoals(), oldData.getTotalGoals() - newData.getTotalGoals());
-			oldData.setTotalGoals(newData.getTotalGoals());
+		if (dbData.getTotalGamesPlayed() < newData.getTotalGamesPlayed()){
 			
-			oldData.setTotalAssists(newData.getTotalAssists());
+			dbData.setTotalGamesPlayed(newData.getTotalGamesPlayed());
 			
+			Database.updateStatQueue(dbData.getGoals(), newData.getTotalGoals() - dbData.getTotalGoals());
+			dbData.setTotalGoals(newData.getTotalGoals());
+			
+			Database.updateStatQueue(dbData.getAssists(), newData.getTotalAssists() - dbData.getTotalAssists());
+			dbData.setTotalAssists(newData.getTotalAssists());
+			
+			Database.updateStatQueue(dbData.getPoints(), newData.getTotalPoints()- dbData.getTotalPoints());
+			dbData.setTotalPoints(newData.getTotalPoints());
+			
+			Database.updateStatQueue(dbData.getPlusMinus(), newData.getTotalPlusMinus() - dbData.getTotalPlusMinus());
+			dbData.setTotalPlusMinus(newData.getTotalPlusMinus());
+			
+			Database.updateStatQueue(dbData.getPenaltyMinutes(), newData.getTotalPenaltyMinutes() - dbData.getTotalPenaltyMinutes());
+			dbData.setTotalPenaltyMinutes(newData.getTotalPenaltyMinutes());
+			
+			Database.updateStatQueue(dbData.getppPoints(), newData.getTotalppPoints() - dbData.getTotalppPoints());
+			dbData.setTotalppPoints(newData.getTotalppPoints());
+			
+			Database.updateStatQueue(dbData.getppGoals(), newData.getTotalppGoals() - dbData.getTotalppGoals());
+			dbData.setTotalppGoals(newData.getTotalppGoals());
+			
+			Database.updateStatQueue(dbData.getShots(), newData.getTotalShots() - dbData.getTotalShots());
+			dbData.setTotalShots(newData.getTotalShots());
+			
+			dbData.setshGoals(newData.getshGoals());
+			
+			Database.createSkaterFile(dbData, filepath);
 		}
 		else{
 			System.out.println("Ignore");

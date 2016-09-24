@@ -136,7 +136,8 @@ public class DatabaseTest {
 			JSONObject initialPlayer = (JSONObject)parser.parse(new FileReader(testFile));
 			File createdFile = new File(subfolder, "Aaron Ekblad.json");
 			assertFalse(createdFile.exists());
-			Database.createSkaterFile(initialPlayer, createdFile);
+			Skater s = new Skater(initialPlayer, DataFromDB.NO);
+			Database.createSkaterFile(s, createdFile);
 			assertTrue(createdFile.exists());
 			JSONParser testParser = new JSONParser();
 			JSONObject finalPlayer = (JSONObject)testParser.parse(new FileReader(createdFile));
@@ -180,6 +181,7 @@ public class DatabaseTest {
 		
 		Skater testSkater = new Skater(testJSONObject, DataFromDB.YES);
 		Skater controlSkater = new Skater(controlJSONObject, DataFromDB.YES);
+		assertTrue("Not the same Skater object", controlSkater.equals(testSkater));
 	}
 	
 	@Test
