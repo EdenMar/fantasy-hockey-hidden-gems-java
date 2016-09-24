@@ -38,7 +38,7 @@ public class SkaterTest {
 		File f = new File("test/Aaron Ekblad Daily Stats 1.json");
 		JSONParser p = new JSONParser();
 		JSONObject o = (JSONObject)p.parse(new FileReader(f));
-		skater = new Skater(o, ExistsInDB.NO);
+		skater = new Skater(o, DataFromDB.NO);
 
 		assertEquals("Name wrong", "Aaron Ekblad", skater.getName());
 		assertEquals("Games played wrong", 78, skater.getTotalGamesPlayed());
@@ -58,7 +58,7 @@ public class SkaterTest {
 		File f = new File("test/Connor McDavid.json");
 		JSONParser p = new JSONParser();
 		JSONObject o = (JSONObject)p.parse(new FileReader(f));
-		skater = new Skater(o, ExistsInDB.YES);
+		skater = new Skater(o, DataFromDB.YES);
 		
 		
 		assertEquals("Goals wrong", skater.getTotalGoals(), 16);
@@ -76,7 +76,7 @@ public class SkaterTest {
 		File f = new File("test/Connor McDavid.json");
 		JSONParser parser = new JSONParser();
 		JSONObject object = (JSONObject)parser.parse(new FileReader(f));
-		skaterInitial = new Skater(object, ExistsInDB.YES);
+		skaterInitial = new Skater(object, DataFromDB.YES);
 		
 		File subfolder = folder.newFolder("subfolder");
 		File fOut = new File(subfolder, "Test.json");
@@ -91,7 +91,7 @@ public class SkaterTest {
 		File f2 = new File(subfolder, "Test.json");
 		JSONParser testParser = new JSONParser();
 		JSONObject testObject = (JSONObject) testParser.parse(new FileReader(f2));
-		Skater testSkater = new Skater(testObject, ExistsInDB.YES);
+		Skater testSkater = new Skater(testObject, DataFromDB.YES);
 		
 		assertTrue(skaterInitial.equals(testSkater));
 		assertTrue(testSkater.equals(skaterInitial));
@@ -127,23 +127,23 @@ public class SkaterTest {
 		File f = new File("test/Connor McDavid.json");
 		JSONParser inDBParser = new JSONParser();
 		JSONObject inDBObject = (JSONObject)inDBParser.parse(new FileReader(f));
-		inDB = new Skater(inDBObject, ExistsInDB.YES);
+		inDB = new Skater(inDBObject, DataFromDB.YES);
 		
 		Skater inDB2;
 		JSONParser inDBParser2 = new JSONParser();
 		JSONObject inDBObject2 = (JSONObject)inDBParser2.parse(new FileReader(f));
-		inDB2 = new Skater(inDBObject2, ExistsInDB.YES);
+		inDB2 = new Skater(inDBObject2, DataFromDB.YES);
 		
 		Skater inDB3;
 		JSONParser inDBParser3 = new JSONParser();
 		JSONObject inDBObject3 = (JSONObject)inDBParser3.parse(new FileReader(f));
-		inDB3 = new Skater(inDBObject3, ExistsInDB.YES);
+		inDB3 = new Skater(inDBObject3, DataFromDB.YES);
 		
 		Skater noDB;
 		File f2 = new File("test/Connor McDavid Daily Stats.json");
 		JSONParser noDBParser = new JSONParser();
 		JSONObject noDBObject = (JSONObject)noDBParser.parse(new FileReader(f2));
-		noDB = new Skater(noDBObject, ExistsInDB.NO);
+		noDB = new Skater(noDBObject, DataFromDB.NO);
 		Object o = new Object();
 		//https://examples.javacodegeeks.com/core-java/lang/java-equals-method-example/
 		assertFalse(inDB.equals(o));

@@ -35,12 +35,12 @@ public class Skater {
 	
 	
 	//depending on whether player is in DB or not, the keys to the JSONObject provided changes
-	public Skater(JSONObject playerJSON, ExistsInDB yesOrNo){
+	public Skater(JSONObject playerJSON, DataFromDB yesOrNo){
 		this.playerName = (String) playerJSON.get("playerName");
 		this.playerPositionCode = (String) playerJSON.get("playerPositionCode");
 		this.totalGamesPlayed = ((Long)playerJSON.get("gamesPlayed")).intValue();
 		
-		if (yesOrNo == ExistsInDB.NO){
+		if (yesOrNo == DataFromDB.NO){
 	
 			this.totalGoals = ((Long)playerJSON.get("goals")).intValue();
 			this.goalsQueue.add(this.getTotalGoals());

@@ -1,5 +1,5 @@
 package ca.ualberta.emar;
-public enum ExistsInDB{
+public enum DataFromDB{
 	YES,
 	NO
 }

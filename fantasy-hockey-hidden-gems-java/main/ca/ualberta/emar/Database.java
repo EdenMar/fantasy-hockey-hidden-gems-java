@@ -14,6 +14,7 @@ import java.net.URLConnection;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayDeque;
 import java.util.Date;
 
 import org.json.simple.JSONArray;
@@ -165,7 +166,7 @@ class Database {
 	 * DB file for each skater
 	 */
 	protected static void createSkaterFile(JSONObject player, File filePath){
-		Skater skater = new Skater(player, ExistsInDB.NO);
+		Skater skater = new Skater(player, DataFromDB.NO);
 		//create new Skater instance
 		//take data from the skaterObject
 		//assign to Skater instance
@@ -183,16 +184,26 @@ class Database {
 		
 	}
 	
-	protected static void updateSkaterFile(JSONObject oldData, JSONObject newData){
-		Skater oldPlayer = new Skater(oldData, ExistsInDB.NO);
-		Skater newPlayer = new Skater(newData, ExistsInDB.NO);
+	protected static void updateSkaterFile(Skater oldData, Skater newData, File filepath){
+
 		
-		if (true){
-			System.out.println("Do function");
+		if (oldData.getTotalGamesPlayed() < newData.getTotalGamesPlayed()){
+			Database.updateStatQueue(oldData.getGoals(), oldData.getTotalGoals() - newData.getTotalGoals());
+			oldData.setTotalGoals(newData.getTotalGoals());
+			
+			oldData.setTotalAssists(newData.getTotalAssists());
+			
 		}
 		else{
 			System.out.println("Ignore");
 		}
+	}
+	
+	protected static void updateStatQueue(ArrayDeque<Integer> statBefore, int difference){
+		if (statBefore.size() >= 10){
+			statBefore.removeFirst();
+		}
+		statBefore.add(difference);
 	}
 	
 	

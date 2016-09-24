@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -139,8 +140,8 @@ public class DatabaseTest {
 			assertTrue(createdFile.exists());
 			JSONParser testParser = new JSONParser();
 			JSONObject finalPlayer = (JSONObject)testParser.parse(new FileReader(createdFile));
-			Skater initialSkater = new Skater(initialPlayer, ExistsInDB.NO);
-			Skater finalSkater = new Skater(finalPlayer, ExistsInDB.YES);
+			Skater initialSkater = new Skater(initialPlayer, DataFromDB.NO);
+			Skater finalSkater = new Skater(finalPlayer, DataFromDB.YES);
 			assertTrue(initialSkater.equals(finalSkater));
 
 
@@ -161,7 +162,46 @@ public class DatabaseTest {
 		JSONParser parseNewData = new JSONParser();
 		JSONObject oldJSONObject = (JSONObject)parseOldData.parse(new FileReader(oldDataFile));
 		JSONObject newJSONObject = (JSONObject)parseNewData.parse(new FileReader(newDataFile));
-		Database.updateSkaterFile(oldJSONObject, newJSONObject);
+		Skater oldSkater = new Skater(oldJSONObject, DataFromDB.NO);
+		Skater newSkater = new Skater(newJSONObject, DataFromDB.NO);
+
+		File subfolder = folder.newFolder("subfolder");
+		File testOutputFile = new File(subfolder, "Testoutput.json");
+		Database.updateSkaterFile(oldSkater, newSkater, testOutputFile);
+		assertTrue("Test output file not made", testOutputFile.exists());
+		File loadTestOutputFile = new File(subfolder, "Testoutput.json");
+		File controlOutputFile = new File("test/Aaron Ekblad.json");
+		
+		JSONParser parseTestFile = new JSONParser();
+		JSONParser parseControlFile = new JSONParser();
+		
+		JSONObject testJSONObject = (JSONObject)parseTestFile.parse(new FileReader(loadTestOutputFile));
+		JSONObject controlJSONObject = (JSONObject)parseControlFile.parse(new FileReader(controlOutputFile));
+		
+		Skater testSkater = new Skater(testJSONObject, DataFromDB.YES);
+		Skater controlSkater = new Skater(controlJSONObject, DataFromDB.YES);
+	}
+	
+	@Test
+	public void testUpdateStatQueue() {
+		ArrayDeque<Integer> d1 = new ArrayDeque<Integer>(10);
+		
+		d1.add(1);
+		d1.add(2);
+		d1.add(3);
+		d1.add(4);
+		d1.add(5);
+		d1.add(6);
+		d1.add(7);
+		d1.add(8);
+		d1.add(9);
+		
+		Database.updateStatQueue(d1, 10);
+		assertTrue("Wrong size", d1.size() == 10);
+		Database.updateStatQueue(d1, 11);
+		assertTrue("Wrong size", d1.size() == 10);
+		assertTrue("Front of queue wrong", d1.peek()==2);
+		
 	}
 
 	class JSONComparator implements Comparator<JSONObject>{
