@@ -167,7 +167,7 @@ class Database {
 		}
 	}
 	
-	private static void updateGoalieDatabase(){
+	protected static void updateGoalieDatabase(){
 		
 	}
 	/*
@@ -238,6 +238,13 @@ class Database {
 		}
 		statBefore.add(difference);
 	}
+	
+	protected static void updateStatQueue(ArrayDeque<Float> statBefore, float difference){
+		if (statBefore.size() >= 10){
+			statBefore.removeFirst();
+		}
+		statBefore.add(difference);
+	}	
 	
 	
 }
