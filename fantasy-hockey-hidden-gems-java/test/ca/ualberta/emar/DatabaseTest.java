@@ -37,6 +37,11 @@ public class DatabaseTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
 
+	/*
+	 * Tests whether the stats retrieved are the same as a control set of stats
+	 * for a season that's already over; bug in the test because NHL changes different
+	 * players' positions
+	 */
 //	@Test
 	public void testGetDailyStatsCorrectness() {
 
@@ -107,6 +112,10 @@ public class DatabaseTest {
 		}
 	}
 	
+	/*
+	 * Tests whether getDailyStats() creates more than one file if run twice
+	 * in the same day 
+	 */
 //	@Test
 	public void testGetDailyStatsNumberFiles(){
 		try{
@@ -168,6 +177,8 @@ public class DatabaseTest {
 
 		File subfolder = folder.newFolder("subfolder");
 		File testOutputFile = new File(subfolder, "Testoutput.json");
+		Database.updateSkaterFile(oldSkater, oldSkater, testOutputFile);
+		assertFalse("Test output file generated in error", testOutputFile.exists());
 		Database.updateSkaterFile(oldSkater, newSkater, testOutputFile);
 		assertTrue("Test output file not made", testOutputFile.exists());
 		File loadTestOutputFile = new File(subfolder, "Testoutput.json");
@@ -184,6 +195,11 @@ public class DatabaseTest {
 		assertTrue("Not the same Skater object", controlSkater.equals(testSkater));
 	}
 	
+	/*
+	 * Tests whether the Skater object will exceed recording more than the 10
+	 * slots allotted for a stat, and whether the stats are added/removed
+	 * in the right order
+	 */
 	@Test
 	public void testUpdateStatQueue() {
 		ArrayDeque<Integer> d1 = new ArrayDeque<Integer>(10);

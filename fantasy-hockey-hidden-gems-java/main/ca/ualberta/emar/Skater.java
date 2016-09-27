@@ -34,7 +34,11 @@ public class Skater {
 	private int totalShots;
 	
 	
-	//depending on whether player is in DB or not, the keys to the JSONObject provided changes
+	/* 
+	 * Depending on whether player is in DB or not, the keys to the JSONObject provided changes.
+	 * Because of this, wanted to have simplest constructor so went with an enum instead
+	 * of different constructors and different signatures
+	 */
 	public Skater(JSONObject playerJSON, DataFromDB yesOrNo){
 		this.playerName = (String) playerJSON.get("playerName");
 		this.playerPositionCode = (String) playerJSON.get("playerPositionCode");

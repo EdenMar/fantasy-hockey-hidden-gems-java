@@ -152,6 +152,14 @@ class Database {
 	        		//if not, update the skaterFile
 	        		//create new instance of Skater with old data
 	        		//update database with new data based on comparisons
+	        		
+	        		//Skater object for new data
+	        		Skater newSkater = new Skater(skaterObject, DataFromDB.NO);
+	        		
+	        		JSONParser dbParser = new JSONParser();
+	        		JSONObject dbObject = (JSONObject)dbParser.parse(new FileReader(skaterFile));
+	        		Skater dbSkater = new Skater(dbObject, DataFromDB.YES);
+	        		updateSkaterFile(dbSkater, newSkater, skaterFile);
 	        	}
 	        }
 		} catch (Exception e) {

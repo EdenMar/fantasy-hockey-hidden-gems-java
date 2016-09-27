@@ -24,13 +24,13 @@ import org.junit.rules.TemporaryFolder;
 public class SkaterTest {
 
 
-	/*
-	 * This test checks if the data from the test can be properly instantiated in an instance
-	 * of Skater. 
-	 */
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
 	
+	/*
+	 * This test checks if the NHL json format can be accepted and the object
+	 * instantiated properly
+	 */
 	@Test
 	public void testConstructorWhenNewToDB() throws Exception, IOException, ParseException{
 		Skater skater;
@@ -52,6 +52,9 @@ public class SkaterTest {
 		
 	}
 	
+	/*
+	 * Test to instantiate a Skater from the json format I am using
+	 */
 	@Test
 	public void testConstructorWhenDBExists() throws Exception, IOException, ParseException{
 		Skater skater;
@@ -70,6 +73,10 @@ public class SkaterTest {
 		
 	}
 	
+	/*
+	 * Test to see if the Skater object created can be written to file and
+	 * reinstantiated
+	 */
 	@Test
 	public void testFromJSONAndBackAgain() throws IOException, ParseException{
 		Skater skaterInitial;
@@ -97,7 +104,10 @@ public class SkaterTest {
 		assertTrue(testSkater.equals(skaterInitial));
 	}
 
-
+	/*
+	 * Test to see if conversion from JSON array to ArrayDeque is done
+	 * correctly
+	 */
 	@Test
 	public void testConvertToArrayDeque(){
 		JSONArray array = new JSONArray();
@@ -108,7 +118,10 @@ public class SkaterTest {
 		assertEquals(new Integer(99), d.pop());
 		
 	}
-	
+	/*
+	 * Test to see if conversion from ArrayDeque to JSONArray is done 
+	 * correctly
+	 */
 	@Test
 	public void testConvertToJSONArray(){
 		ArrayDeque<Integer> deque = new ArrayDeque<Integer>(10);
@@ -120,7 +133,9 @@ public class SkaterTest {
 		assertEquals(a.get(0), new Integer(98));
 		assertEquals(a.get(1), new Integer(52));
 	}
-	
+	/*
+	 * Testing for whether two Skater objects hold the same data, ie equal.
+	 */
 	@Test
 	public void testEquals() throws FileNotFoundException, IOException, ParseException{
 		Skater inDB;
