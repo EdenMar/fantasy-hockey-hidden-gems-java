@@ -3,6 +3,7 @@ package ca.ualberta.emar;
 
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 
 import org.json.simple.*;
 
@@ -229,7 +230,7 @@ public class Goalie {
 	//SuppressedWarning as JSONObject inherits from HashMap, but doesn't inherit <K,V>
 	//http://stackoverflow.com/questions/2927370/how-to-solve-this-java-type-safety-warning
 	@SuppressWarnings("unchecked")
-	protected JSONObject createGoalieJSON(){
+	protected JSONObject getGoalieJSON(){
 		JSONObject goalie = new JSONObject();
 		goalie.put("playerName", this.playerName);
 		goalie.put("gamesPlayed", this.totalGamesPlayed);
@@ -286,6 +287,22 @@ public class Goalie {
 		
 		Goalie g = (Goalie)o;
 		
-		return this.playerName.equals(g.getName());
+		return this.playerName.equals(g.getName())
+				&& this.totalGamesPlayed == g.getTotalGamesPlayed()
+				&& Arrays.equals(this.savePctgQueue.toArray(), g.getSavePctg().toArray())
+				&& this.totalSavePctg == g.getTotalSavePctg()
+				&& Arrays.equals(this.winsQueue.toArray(), g.getWins().toArray())
+				&& this.totalWins == g.getTotalWins()
+				&& this.shutouts == g.getShutouts()
+				&& Arrays.equals(this.shotsAgainstQueue.toArray(), g.getShotsAgainst().toArray())
+				&& this.totalShotsAgainst == g.getTotalShotsAgainst()
+				&& Arrays.equals(this.goalsAgainstQueue.toArray(), g.getGoalsAgainst().toArray())
+				&& this.totalGoalsAgainst == g.getTotalGoalsAgainst()
+				&& Arrays.equals(this.savesQueue.toArray(), g.getSaves().toArray())
+				&& this.totalSaves == g.getTotalSaves()
+				&& Arrays.equals(this.GAAQueue.toArray(), g.getGoalsAgainstAverage().toArray())
+				&& this.totalGAA == g.getTotalGAA()
+				&& Arrays.equals(this.timeOnIceQueue.toArray(), g.getTimeOnIce().toArray())
+				&& this.totalTimeOnIce == g.getTotalTimeOnIce();
 	}
 }
