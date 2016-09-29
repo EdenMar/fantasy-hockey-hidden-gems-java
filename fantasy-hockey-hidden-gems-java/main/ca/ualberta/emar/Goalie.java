@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 import org.json.simple.*;
 
 public class Goalie {
-	private String name;
+	private String playerName;
 	private String playerPositionCode = "G";
 	private int totalGamesPlayed;
 //	private ArrayDeque<Integer> gamesPlayedQueue;
@@ -23,18 +23,18 @@ public class Goalie {
 	private ArrayDeque<Integer> savesQueue = new ArrayDeque<Integer>(10);
 	private int totalSaves;
 	private float totalGAA;
-	private ArrayDeque<Float> goalsAgainstAverageQueue = new ArrayDeque<Float>(10);
+	private ArrayDeque<Float> GAAQueue = new ArrayDeque<Float>(10);
 	private ArrayDeque<Integer> timeOnIceQueue = new ArrayDeque<Integer>(10);
 	private int totalTimeOnIce;
 	
 	//constructor takes JSONObject and adds goalie to DB
 	public Goalie (JSONObject goalie, DataFromDB yesOrNo){
-		this.name = (String)goalie.get("playerName");
+		this.playerName = (String)goalie.get("playerName");
 		this.totalGamesPlayed = ((Long)goalie.get("gamesPlayed")).intValue();
 		
 		if (yesOrNo == DataFromDB.NO){
-			this.savePctgQueue.add((float)((Double) goalie.get("savePctg")).doubleValue());
-			this.totalSavePctg = (Float)goalie.get("savePctg");
+			this.savePctgQueue.add(((Double) goalie.get("savePctg")).floatValue());
+			this.totalSavePctg = ((Double)goalie.get("savePctg")).floatValue();
 			
 			this.winsQueue.add(((Long)goalie.get("wins")).intValue());
 			this.totalWins = ((Long)goalie.get("wins")).intValue();
@@ -43,23 +43,47 @@ public class Goalie {
 			
 			this.shotsAgainstQueue.add(((Long)goalie.get("shotsAgainst")).intValue());
 			this.totalShotsAgainst = ((Long)goalie.get("shotsAgainst")).intValue();
-					;
-			this.goalsAgainstQueue.add((Integer)goalie.get("goalsAgainst"));
-			this.totalGoalsAgainst = (Integer)goalie.get("goalsAgainst");
+
+			this.goalsAgainstQueue.add(((Long)goalie.get("goalsAgainst")).intValue());
+			this.totalGoalsAgainst = ((Long)goalie.get("goalsAgainst")).intValue();
 			
-			this.savesQueue.add((Integer)goalie.get("saves"));
-			this.totalSaves = (Integer)goalie.get("saves");
+			this.savesQueue.add(((Long)goalie.get("saves")).intValue());
+			this.totalSaves = ((Long)goalie.get("saves")).intValue();
 			
-			this.totalGAA = (Float)goalie.get("goalsAgainstAverage");
-			this.goalsAgainstAverageQueue.add((Float)goalie.get("goalsAgainstAverage"));
+			this.totalGAA = ((Double)goalie.get("goalsAgainstAverage")).floatValue();
+			this.GAAQueue.add(((Double)goalie.get("goalsAgainstAverage")).floatValue());
 			
-			this.timeOnIceQueue.add((Integer)goalie.get("timeOnIce"));
-			this.totalTimeOnIce = (Integer)goalie.get("timeOnIce");
+			this.timeOnIceQueue.add(((Long)goalie.get("timeOnIce")).intValue());
+			this.totalTimeOnIce = ((Long)goalie.get("timeOnIce")).intValue();
+		}
+		else{
+			this.savePctgQueue = convertToArrayDeque((JSONArray)goalie.get("savePctgQueue"));
+			this.totalSavePctg = ((Double)goalie.get("totalSavePctg")).floatValue();
+			
+			this.winsQueue = Skater.convertToArrayDeque((JSONArray)goalie.get("winsQueue"));
+			this.totalWins = ((Long)goalie.get("totalWins")).intValue();
+			
+			this.shutouts = ((Long)goalie.get("shutouts")).intValue();
+			
+			this.goalsAgainstQueue = Skater.convertToArrayDeque((JSONArray)goalie.get("goalsAgainstQueue"));
+			this.totalGoalsAgainst = ((Long)goalie.get("totalGoalsAgainst")).intValue();
+			
+			this.shotsAgainstQueue = Skater.convertToArrayDeque((JSONArray)goalie.get("shotsAgainstQueue"));
+			this.totalShotsAgainst = ((Long)goalie.get("totalShotsAgainst")).intValue();
+			
+			this.savesQueue = Skater.convertToArrayDeque((JSONArray)goalie.get("savesQueue"));
+			this.totalSaves = ((Long)goalie.get("totalSaves")).intValue();
+			
+			this.totalGAA = ((Double)goalie.get("totalGAA")).floatValue();
+			this.GAAQueue = convertToArrayDeque((JSONArray)goalie.get("GAAQueue"));
+			
+			this.timeOnIceQueue = Skater.convertToArrayDeque((JSONArray)goalie.get("timeOnIceQueue"));
+			this.totalTimeOnIce = ((Long)goalie.get("totalTimeOnIce")).intValue();
 		}
 	}
 	
 	public String getName(){
-		return name;
+		return playerName;
 	}
 	
 	public String getPlayerPositionCode(){
@@ -179,11 +203,11 @@ public class Goalie {
 	}
 	
 	public ArrayDeque<Float> getGoalsAgainstAverage(){
-		return goalsAgainstAverageQueue;
+		return GAAQueue;
 	}
 	
 	protected void setGoalsAgainstAverage(ArrayDeque<Float> goalsAgainstAverage){
-		this.goalsAgainstAverageQueue = goalsAgainstAverage;
+		this.GAAQueue = goalsAgainstAverage;
 	}
 	
 	public ArrayDeque<Integer> getTimeOnIce(){
@@ -207,7 +231,7 @@ public class Goalie {
 	@SuppressWarnings("unchecked")
 	protected JSONObject createGoalieJSON(){
 		JSONObject goalie = new JSONObject();
-		goalie.put("playerName", this.name);
+		goalie.put("playerName", this.playerName);
 		goalie.put("gamesPlayed", this.totalGamesPlayed);
 		goalie.put("savePctgQueue", convertToJSONArray(this.savePctgQueue));
 		goalie.put("totalSavePctg", this.totalSavePctg);
@@ -221,19 +245,47 @@ public class Goalie {
 		goalie.put("savesQueue", Skater.convertToJSONArray(this.savesQueue));
 		goalie.put("totalSaves", this.totalSaves);
 		goalie.put("totalGAA", this.totalGAA);
-		goalie.put("goalsAgainstAverageQueue", convertToJSONArray(this.goalsAgainstAverageQueue));
+		goalie.put("GAAQueue", convertToJSONArray(this.GAAQueue));
 		goalie.put("timeOnIceQueue", Skater.convertToJSONArray(this.timeOnIceQueue));
 		goalie.put("totalTimeOnIce", this.totalTimeOnIce);
 
 		return goalie;
 	}
 	
+	//http://stackoverflow.com/questions/18335214/how-to-add-arrayliststring-to-json-array-keeping-type-safety-in-mind
+	@SuppressWarnings("unchecked")
 	protected static JSONArray convertToJSONArray(ArrayDeque<Float> deque){
 		JSONArray list = new JSONArray();
+		ArrayDeque<Float> a = deque.clone();
 		int size = deque.size();
 		for (int i = 0; i < size; i++){
-			list.add(deque.removeFirst());
+			list.add(a.removeFirst());
 		}
 		return list;
+	}
+	
+	protected static ArrayDeque<Float> convertToArrayDeque(JSONArray array){
+		ArrayDeque<Float> data = new ArrayDeque<Float>(10);
+		try{
+			for (Object o: array){
+				Float tmp = ((Double)o).floatValue();
+				data.add(tmp);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return data;
+	}
+	@Override
+	public boolean equals(Object o){
+		if (o == this)
+			return true;
+		
+		if (!(o instanceof Goalie))
+			return false;
+		
+		Goalie g = (Goalie)o;
+		
+		return this.playerName.equals(g.getName());
 	}
 }
