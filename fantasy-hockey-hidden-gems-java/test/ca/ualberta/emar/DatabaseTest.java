@@ -139,7 +139,6 @@ public class DatabaseTest {
 		
 		try {
 			File subfolder = folder.newFolder("subfolder");
-			//
 			File testFile = new File("test/Aaron Ekblad Daily Stats 1.json");
 			JSONParser parser = new JSONParser();
 			JSONObject initialPlayer = (JSONObject)parser.parse(new FileReader(testFile));

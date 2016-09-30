@@ -167,7 +167,60 @@ class Database {
 		}
 	}
 	
-	protected static void updateGoalieDatabase(){
+	protected static void manageGoalieDatabase(){
+		Path cwd = Paths.get("");
+		String s = cwd.toAbsolutePath().toString();
+		File f = new File(s);
+		try{
+			Database.manageGoalieDatabase(f);
+		} catch (Exception e){
+			System.out.println("An error occurred in updateSkaterDatabase");
+		}
+	}
+	
+	protected static void manageGoalieDatabase(File path){
+		File outFile = new File(path, "Player Stats/Goalie Stats");
+		File inFile = new File(path, "Daily Stats/");
+		
+		if (!outFile.exists()){
+			outFile.mkdirs();
+		}
+		
+		try{
+	        File readFile = new File(inFile, NOW + " Goalie Stats.json");
+	        JSONParser parser = new JSONParser();
+	        JSONObject obj = (JSONObject)parser.parse(new FileReader(readFile));
+	        JSONArray array = new JSONArray();
+	        array = (JSONArray)obj.get("data");
+	        for (Object element : array){
+	        	JSONObject goalieObj = (JSONObject)element;
+	        	String name = (String)goalieObj.get("playerName");
+	        	File goalieFile = new File(outFile, name + ".json");
+	        	if (!goalieFile.exists()){
+	        		Goalie g = new Goalie(goalieObj, DataFromDB.NO);
+	        		createGoalieFile(g, goalieFile);
+	        	}
+	        	else{
+	        		
+	        	}
+	        }
+	        }catch (Exception e){
+	        	e.printStackTrace();
+	        }
+	}
+	
+	protected static void createGoalieFile(Goalie player, File filePath){
+		try{
+			FileWriter writer = new FileWriter(filePath);
+			player.getGoalieJSON().writeJSONString(writer);
+			writer.flush();
+			writer.close();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	protected static void updateGoalieDatabase(Goalie dbGoalie, Goalie newData, File filePath){
 		
 	}
 	/*
