@@ -13,6 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
 import java.util.Date;
@@ -174,7 +175,7 @@ class Database {
 		try{
 			Database.manageGoalieDatabase(f);
 		} catch (Exception e){
-			System.out.println("An error occurred in updateSkaterDatabase");
+			System.out.println("An error occurred in manageGoalieDatabase");
 		}
 	}
 	
@@ -201,7 +202,12 @@ class Database {
 	        		createGoalieFile(g, goalieFile);
 	        	}
 	        	else{
+	        		Goalie newGoalie = new Goalie(goalieObj, DataFromDB.NO);
 	        		
+	        		JSONParser dbParser = new JSONParser();
+	        		JSONObject dbObj = (JSONObject)dbParser.parse(new FileReader(goalieFile));
+	        		Goalie dbGoalie = new Goalie(dbObj, DataFromDB.YES);
+	        		updateGoalieDatabase(dbGoalie, newGoalie, goalieFile);
 	        	}
 	        }
 	        }catch (Exception e){
@@ -222,6 +228,25 @@ class Database {
 	
 	protected static void updateGoalieDatabase(Goalie dbGoalie, Goalie newData, File filePath){
 		
+		if (dbGoalie.getTotalGamesPlayed() < newData.getTotalGamesPlayed()){
+			dbGoalie.setTotalGamesPlayed(newData.getTotalGamesPlayed());
+			
+			//need temp vars to calculate before addin
+			int tmpShot = newData.getTotalShotsAgainst() - dbGoalie.getTotalShotsAgainst();
+			int tmpGoalsAgainst = newData.getTotalGoalsAgainst() - dbGoalie.getTotalGoalsAgainst();
+			int tmpSaves = newData.getTotalSaves() - dbGoalie.getTotalSaves();
+			int tmpTime = newData.getTotalTimeOnIce() - dbGoalie.getTotalTimeOnIce();
+			int tmpMin = tmpTime / 60;
+			float tmpGAA = tmpGoalsAgainst * 60f / tmpMin;
+			float tmpSavePctg;
+//			float sv = 12f/13;
+//			DecimalFormat df = new DecimalFormat();
+//			df.setMaximumFractionDigits(4);
+//			Float f = new Float(df.format(sv)).floatValue();
+			System.out.println(tmpGAA);
+			
+			createGoalieFile(dbGoalie, filePath);
+		}
 	}
 	/*
 	 * createSkaterFile takes the Skater object and a filepath and creates the individual

@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -160,6 +161,46 @@ public class DatabaseTest {
 		
 	}
 	
+	@Test
+	public void testManageSkaterDB() throws IOException{
+		File root = folder.newFolder("root");
+		File inDir = new File(root, "Daily Stats/");
+		File outDir = new File(root, "Player Stats/Skater Stats/");
+		assertFalse(outDir.exists());
+		
+		File srcFile = new File("test/Skater Control.json");
+		File destFile = new File(inDir, NOW + " Skater Stats.json");
+		FileUtils.copyFile(srcFile, destFile);
+		
+		assertTrue(destFile.exists());
+		Database.manageSkaterDatabase(root);
+		assertTrue("Not made", outDir.exists());
+		assertTrue(new File(outDir, "Aaron Ekblad.json").exists());
+		File[] files = outDir.listFiles();
+		assertTrue("Wrong number of files", files.length == 898);
+		
+	}
+	
+	@Test
+	public void testManageGoalieDB() throws IOException{
+		File root = folder.newFolder("root");
+		File inDir = new File(root, "Daily Stats/");
+		File outDir = new File(root, "Player Stats/Goalie Stats/");
+		assertFalse(outDir.exists());
+		
+		File srcFile = new File("test/Goalie Control.json");
+		File destFile = new File(inDir, NOW + " Goalie Stats.json");
+		FileUtils.copyFile(srcFile, destFile);
+		
+		assertTrue(destFile.exists());
+		Database.manageGoalieDatabase(root);
+		assertTrue("Not made", outDir.exists());
+		assertTrue(new File(outDir, "Curtis McElhinney.json").exists());
+		File[] files = outDir.listFiles();
+		assertTrue("Wrong number of files", files.length == 92);
+		
+	}
+	
 	/*
 	 * Tests whether the DB file of a given skater is updated correctly
 	 */
@@ -176,6 +217,7 @@ public class DatabaseTest {
 
 		File subfolder = folder.newFolder("subfolder");
 		File testOutputFile = new File(subfolder, "Testoutput.json");
+		//if gamesPlayed the same, then no file should be generated
 		Database.updateSkaterFile(oldSkater, oldSkater, testOutputFile);
 		assertFalse("Test output file generated in error", testOutputFile.exists());
 		Database.updateSkaterFile(oldSkater, newSkater, testOutputFile);
@@ -192,6 +234,41 @@ public class DatabaseTest {
 		Skater testSkater = new Skater(testJSONObject, DataFromDB.YES);
 		Skater controlSkater = new Skater(controlJSONObject, DataFromDB.YES);
 		assertTrue("Not the same Skater object", controlSkater.equals(testSkater));
+	}
+	
+	@Test
+	public void testUpdateGoalieDB() throws FileNotFoundException, IOException, ParseException{
+		File initialData = new File("test/Curtis McElhinney Daily Stats 1.json");
+		File finalData = new File("test/Curtis McElhinney Daily Stats 2.json");
+		JSONParser initialParser = new JSONParser();
+		JSONParser finalParser = new JSONParser();
+		JSONObject initialObj = (JSONObject)initialParser.parse(new FileReader(initialData));
+		JSONObject finalObj = (JSONObject)finalParser.parse(new FileReader(finalData));
+		
+		Goalie initialGoalie = new Goalie(initialObj, DataFromDB.NO);
+		Goalie finalGoalie = new Goalie(finalObj, DataFromDB.NO);
+		
+		File root = folder.newFolder("root");
+		File testFile = new File(root, "Test.json");
+		Database.updateGoalieDatabase(initialGoalie, initialGoalie, testFile);
+		assertFalse("File created in error", testFile.exists());
+		Database.updateGoalieDatabase(initialGoalie, finalGoalie, testFile);
+		assertTrue("File not created", testFile.exists());
+		
+		File controlFile = new File("test/Curtis McElhinney 2.json");
+		
+		JSONParser parseTest = new JSONParser();
+		JSONParser parseControl = new JSONParser();
+		
+		JSONObject testObj = (JSONObject)parseTest.parse(new FileReader(testFile));
+		JSONObject controlObj = (JSONObject)parseControl.parse(new FileReader(controlFile));
+		
+		Goalie testGoalie = new Goalie(testObj, DataFromDB.YES);
+		Goalie controlGoalie = new Goalie(controlObj, DataFromDB.YES);
+		assertTrue("Goalies not the same", testGoalie.equals(controlGoalie));
+		
+		
+		
 	}
 	
 	/*

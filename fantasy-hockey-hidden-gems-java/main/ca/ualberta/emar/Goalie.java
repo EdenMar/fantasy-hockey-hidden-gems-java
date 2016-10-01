@@ -219,7 +219,7 @@ public class Goalie {
 		this.timeOnIceQueue = timeOnIce;
 	}
 	
-	public float getTotalTimeOnIce(){
+	public int getTotalTimeOnIce(){
 		return totalTimeOnIce;
 	}
 	
