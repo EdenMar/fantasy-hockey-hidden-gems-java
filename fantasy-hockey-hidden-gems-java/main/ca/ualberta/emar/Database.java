@@ -238,12 +238,31 @@ class Database {
 			int tmpTime = newData.getTotalTimeOnIce() - dbGoalie.getTotalTimeOnIce();
 			int tmpMin = tmpTime / 60;
 			float tmpGAA = tmpGoalsAgainst * 60f / tmpMin;
-			float tmpSavePctg;
-//			float sv = 12f/13;
-//			DecimalFormat df = new DecimalFormat();
-//			df.setMaximumFractionDigits(4);
-//			Float f = new Float(df.format(sv)).floatValue();
-			System.out.println(tmpGAA);
+
+			float tmpSavePctg = (float)tmpSaves / tmpShot;
+
+			updateStatQueue(dbGoalie.getSavePctg(), tmpSavePctg);
+			dbGoalie.setTotalSavePctg(newData.getTotalSavePctg());
+			
+			updateStatQueue(dbGoalie.getWins(), newData.getTotalWins() - dbGoalie.getTotalWins());
+			dbGoalie.setTotalWins(newData.getTotalWins());
+			
+			dbGoalie.setShutouts(newData.getShutouts());
+			
+			updateStatQueue(dbGoalie.getShotsAgainst(), tmpShot);
+			dbGoalie.setTotalShotsAgainst(newData.getTotalShotsAgainst());
+			
+			updateStatQueue(dbGoalie.getGoalsAgainst(), tmpGoalsAgainst);
+			dbGoalie.setTotalGoalsAgainst(newData.getTotalGoalsAgainst());
+			
+			updateStatQueue(dbGoalie.getSaves(), tmpSaves);
+			dbGoalie.setTotalSaves(newData.getTotalSaves());
+			
+			updateStatQueue(dbGoalie.getGoalsAgainstAverage(), tmpGAA);
+			dbGoalie.setTotalGAA(newData.getTotalGAA());
+			
+			updateStatQueue(dbGoalie.getTimeOnIce(), tmpTime);
+			dbGoalie.setTotalTimeOnIce(newData.getTotalTimeOnIce());
 			
 			createGoalieFile(dbGoalie, filePath);
 		}
@@ -321,7 +340,10 @@ class Database {
 		if (statBefore.size() >= 10){
 			statBefore.removeFirst();
 		}
-		statBefore.add(difference);
+		DecimalFormat df = new DecimalFormat("0.0000");
+		Float f = new Float(df.format(difference));
+
+		statBefore.add(f);
 	}	
 	
 	

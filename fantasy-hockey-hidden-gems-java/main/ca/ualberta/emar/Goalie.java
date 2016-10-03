@@ -199,7 +199,7 @@ public class Goalie {
 		return totalGAA;
 	}
 	
-	protected void setTotalGAA(int totalGAA){
+	protected void setTotalGAA(float totalGAA){
 		this.totalGAA = totalGAA;
 	}
 	
