@@ -52,7 +52,7 @@ class Database {
 		}
 
 		
-        URL site = new URL("http://www.nhl.com/stats/rest/grouped/skaters/season/skatersummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=2");
+        URL site = new URL("http://www.nhl.com/stats/rest/grouped/skaters/season/skatersummary?cayenneExp=seasonId=20162017%20and%20gameTypeId=2");
 
         File skaterFile = new File(dir, NOW + " Skater Stats.json");
 		if (!skaterFile.exists()) {
@@ -71,7 +71,7 @@ class Database {
 				System.out.println("An error occurred in getDailyStats(): " + e);
 			} 
 		}
-		site = new URL("http://www.nhl.com/stats/rest/grouped/goalies/season/goaliesummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=2%20and%20playerPositionCode=%22G%22");
+		site = new URL("http://www.nhl.com/stats/rest/grouped/goalies/season/goaliesummary?cayenneExp=seasonId=20162017%20and%20gameTypeId=2%20and%20playerPositionCode=%22G%22");
         File goalieFile = new File(dir, NOW + " Goalie Stats.json");
 
 		if (!goalieFile.exists()) {

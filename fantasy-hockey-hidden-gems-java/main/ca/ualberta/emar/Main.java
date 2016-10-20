@@ -8,6 +8,7 @@ public class Main {
 		try {
 			Database.getDailyStats();
 			Database.manageSkaterDatabase();
+			Database.manageGoalieDatabase();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
