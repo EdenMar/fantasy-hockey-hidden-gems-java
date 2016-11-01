@@ -109,8 +109,13 @@ public class IntegerReport {
 					writer.append(',');
 					writer.append(key.toString());
 					writer.append(',');
-					Integer[] fullArray = namesToQueue.get(name).toArray(new Integer[10]);
-					Integer[] partArray = Arrays.copyOfRange(fullArray, 0, lastXGames);
+					Integer[] fullArray = namesToQueue.get(name).toArray(new Integer[namesToQueue.get(name).size()]);
+					Integer[] partArray;
+					if ((fullArray.length - lastXGames) < 0)
+						partArray = Arrays.copyOfRange(fullArray, 0, fullArray.length);
+					else{
+						partArray = Arrays.copyOfRange(fullArray, fullArray.length - lastXGames, fullArray.length);
+					}
 					writer.append('"' + Arrays.toString(partArray) + '"');
 					writer.append('\n');
 				}

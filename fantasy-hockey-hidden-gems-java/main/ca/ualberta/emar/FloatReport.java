@@ -43,14 +43,16 @@ public class FloatReport {
 			for (int i = 0; i < lastXGames; i++){
 				average += clone.pollLast();
 			}
+			return new Float(DF.format(average / (float)lastXGames));
 		}
 		else{
 			for (int i = 0; i < stat.size(); i++){
 				average += clone.pollLast();
 			}
+			return new Float(DF.format(average / (float)stat.size()));
 		}
 		
-		return new Float(DF.format(average / (float)lastXGames));
+		
 	}
 	
 	protected Map<Float, List<String>> sortStats(int lastXGames){
@@ -110,8 +112,13 @@ public class FloatReport {
 					writer.append(',');
 					writer.append(key.toString());
 					writer.append(',');
-					Float[] fullArray = namesToQueue.get(name).toArray(new Float[10]);
-					Float[] partArray = Arrays.copyOfRange(fullArray, 0, lastXGames);
+					Float[] fullArray = namesToQueue.get(name).toArray(new Float[namesToQueue.get(name).size()]);
+					Float[] partArray;
+					if ((fullArray.length - lastXGames) < 0)
+						partArray = Arrays.copyOfRange(fullArray, 0, fullArray.length);
+					else{
+						partArray = Arrays.copyOfRange(fullArray, fullArray.length - lastXGames, fullArray.length);
+					}
 					writer.append('"' + Arrays.toString(partArray) + '"');
 					writer.append('\n');
 				}
