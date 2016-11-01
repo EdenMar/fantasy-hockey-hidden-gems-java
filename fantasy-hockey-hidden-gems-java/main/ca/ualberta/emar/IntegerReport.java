@@ -39,8 +39,15 @@ public class IntegerReport {
 	protected int getLastXGamesTotal(ArrayDeque<Integer> stat, int lastXGames){
 		ArrayDeque<Integer> c = stat.clone();
 		int count = 0;
-		for (int i = 0; i < lastXGames; i++){
-			count += c.poll();
+		if (stat.size() >= lastXGames){
+			for (int i = 0; i < lastXGames; i++){
+				count += c.pollLast();
+			}
+		}
+		else{
+			for (int i = 0; i < stat.size(); i++){
+				count+= c.pollLast();
+			}
 		}
 		return count;
 	}

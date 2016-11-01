@@ -39,8 +39,15 @@ public class FloatReport {
 	protected Float getXLastGamesAvg(ArrayDeque<Float> stat, int lastXGames){
 		float average = 0f;
 		ArrayDeque<Float> clone = stat.clone();
-		for (int i = 0; i < lastXGames; i++){
-			average += clone.poll();
+		if (stat.size() >= lastXGames){
+			for (int i = 0; i < lastXGames; i++){
+				average += clone.pollLast();
+			}
+		}
+		else{
+			for (int i = 0; i < stat.size(); i++){
+				average += clone.pollLast();
+			}
 		}
 		
 		return new Float(DF.format(average / (float)lastXGames));

@@ -64,7 +64,6 @@ public class Main {
 			penaltiesReport.add(skater.getName(), skater.getPenaltyMinutes());
 			ppPointsReport.add(skater.getName(), skater.getppPoints());
 			ppGoalsReport.add(skater.getName(), skater.getppGoals());
-			System.out.println(skater.getGoals());
 		}
 		
 		for (File goaliefile : goalieFiles){
@@ -81,11 +80,11 @@ public class Main {
 		}
 		
 		for (IntegerReport report : reportList){
-			report.createReport(1);
+			report.createReport(3);
 		}
 		
-		GAAReport.createReport(1);
-		savePctgReport.createReport(1);
+		GAAReport.createReport(3);
+		savePctgReport.createReport(3);
 	}
 	
 	
