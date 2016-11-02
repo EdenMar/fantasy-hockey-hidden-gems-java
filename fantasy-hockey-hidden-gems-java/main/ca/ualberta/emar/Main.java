@@ -53,6 +53,7 @@ public class Main {
 		List<IntegerReport> reportList = new ArrayList<IntegerReport>(Arrays.asList(goalsReport, assistsReport, 
 				pointsReport, penaltiesReport, ppPointsReport, ppGoalsReport, winsReport, shotsAgainstReport, timeOnIceReport, savesReport));
 		
+		List<FloatReport> floatList = new ArrayList<FloatReport>(Arrays.asList(savePctgReport, GAAReport));
 		
 		for (File skaterfile : skaterFiles){
 			JSONParser parser = new JSONParser();
@@ -81,10 +82,14 @@ public class Main {
 		
 		for (IntegerReport report : reportList){
 			report.createReport(3);
+			report.createReport(10);
 		}
 		
-		GAAReport.createReport(3);
-		savePctgReport.createReport(3);
+		for (FloatReport report : floatList){
+			report.createReport(3);
+			report.createReport(10);
+		}
+
 	}
 	
 	
